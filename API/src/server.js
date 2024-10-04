@@ -6,12 +6,14 @@ const cors = require("cors");
 const { errorHandler } = require("./middlewares/errorHandler");
 const { logging } = require("./helper/logging");
 const { connectMysql } = require("./database/connectMysql");
+const v1Route = require("./routes/v1Route/v1Route");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(errorHandler);
+
 app.get("/matrics", (req, res) => {
   const register = new client.Registry();
   register.setDefaultLabels({ app: "art_gallery" });
@@ -20,6 +22,8 @@ app.get("/matrics", (req, res) => {
 
   register.metrics().then((data) => res.status(200).send(data));
 });
+
+app.use("/api/v1", v1Route);
 (async function () {
   try {
     await connectMysql.authenticate();
