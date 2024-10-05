@@ -21,6 +21,8 @@ exports.validate = (data = []) => {
   for (item in data) {
     if (schemeInputs.hasOwnProperty(item)) {
       targetInput[item] = schemeInputs[item];
+    } else {
+      targetInput[item] = Joi.any();
     }
   }
 

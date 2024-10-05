@@ -29,6 +29,7 @@ exports.Users = connectMysql.define("Users", {
   role: {
     type: DataTypes.ENUM(["admin", "customer", "moderator"]),
     allowNull: false,
+    defaultValue: "customer",
   },
   permissions: { type: DataTypes.JSON },
   preferred_language: { type: DataTypes.ENUM(["ar", "en"]) },
