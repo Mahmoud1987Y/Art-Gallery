@@ -3,15 +3,21 @@ const { Users } = require("../models/Users");
 const { validate } = require("../helper/validation");
 const { verifiedEncryption, hashPassword } = require("../helper/encrypt");
 const { where } = require("sequelize");
+const jwt = require("jsonwebtoken");
 
 exports.getUsers = async (req, res, next) => {
   try {
     const result = Users.findAll();
-    res.status(400).json({ status: "OK", data: result, error: {} });
+    res.status(400).json({
+      status: "OK",
+      data: { ...result, password_hash: undefined },
+      error: {},
+    });
   } catch (error) {
     next(error); // Forward the error to the error handler
   }
 };
+
 exports.login = async (req, res, next) => {
   const data = req.body;
   // check validation for req.body
@@ -25,9 +31,14 @@ exports.login = async (req, res, next) => {
       const result = await Users.findOne({ where: { email: data.email } });
       if (result) {
         if (verifiedEncryption(result.password_hash, data.password)) {
+          const token = jwt.sign({ id: result.id }, process.env.SECRET_KEY, {
+            subject: "Access API",
+            expiresIn: "1h",
+          });
           res.status(200).json({
             message: "OK",
             result: { ...result.dataValues, password_hash: undefined },
+            token: token,
             error: {},
           });
         } else {
@@ -42,6 +53,7 @@ exports.login = async (req, res, next) => {
     //check validationof password
   }
 };
+
 exports.addUser = async (req, res, next) => {
   const data = req.body;
   // check validation for req.body
@@ -77,6 +89,7 @@ exports.addUser = async (req, res, next) => {
     //check validationof password
   }
 };
+
 exports.updateUser = (req, res, next) => {
   res.send("updateUser");
 };
