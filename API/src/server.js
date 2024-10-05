@@ -22,7 +22,11 @@ app.get("/matrics", (req, res) => {
 
   register.metrics().then((data) => res.status(200).send(data));
 });
-
+app.get("/error", (req, res, next) => {
+  const error = new Error("Something went wrong!");
+  error.status = 500;
+  next(error); // Forward the error to the error handler
+});
 app.use("/api/v1", v1Route);
 (async function () {
   try {
@@ -32,7 +36,7 @@ app.use("/api/v1", v1Route);
     logging.error("Unable to connect to the database:", error);
   }
 })();
-
+app.use(errorHandler);
 connectMysql.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     logging.info(`connection done successifuly on local host on port ${PORT}`);
