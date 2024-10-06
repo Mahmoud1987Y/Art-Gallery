@@ -12,7 +12,7 @@ const authentication = (req, res, next) => {
     req.user = { user_data: decodedAccessToken.user_data };
     next();
   } catch (error) {
-    throw new Error("Access Token is invalid or expired");
+    res.status(500).json({ message: "Access Token is invalid or expired" });
   }
 };
 

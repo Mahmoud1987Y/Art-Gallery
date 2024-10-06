@@ -34,3 +34,11 @@ exports.Users = connectMysql.define("Users", {
   permissions: { type: DataTypes.JSON },
   preferred_language: { type: DataTypes.ENUM(["ar", "en"]) },
 });
+
+exports.TokensModel = connectMysql.define("TokensModel", {
+  refreshToken: { type: DataTypes.TEXT },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: { model: this.Users, key: "id" },
+  },
+});

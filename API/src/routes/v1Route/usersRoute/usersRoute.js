@@ -8,16 +8,18 @@ const {
   addUser,
   updateUser,
   deleteUser,
+  refreshToken,
 } = require("../../../controllers/usersController");
 
 const usersRoute = Router();
 
 //get all users
-usersRoute.get("/", authentication, getUsers);
+usersRoute.get("/", authentication, authorization(["admin"]), getUsers);
 
 usersRoute.post("/login", login);
 usersRoute.post("/sign-up", addUser);
 usersRoute.put("/:id", authentication, updateUser);
 usersRoute.delete("/:id", authentication, authorization(["admin"]), deleteUser);
+usersRoute.post("/refresh-token", refreshToken);
 
 module.exports = usersRoute;
