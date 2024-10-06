@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const result = Users.findAll();
+    const result = await Users.findAll();
     res.status(400).json({
       status: "OK",
       data: { ...result, password_hash: undefined },
@@ -31,10 +31,24 @@ exports.login = async (req, res, next) => {
       const result = await Users.findOne({ where: { email: data.email } });
       if (result) {
         if (verifiedEncryption(result.password_hash, data.password)) {
-          const token = jwt.sign({ id: result.id }, process.env.SECRET_KEY, {
-            subject: "Access API",
-            expiresIn: "1h",
-          });
+          const token = jwt.sign(
+            {
+              user_data: {
+                username: result.username,
+                email: result.email,
+                firest_name: result.firest_name,
+                last_name: result.last_name,
+                profile_picture_url: res.profile_picture_url,
+                role: result.role,
+                permissions: result.permissions,
+              },
+            },
+            process.env.SECRET_KEY,
+            {
+              subject: "Access API",
+              expiresIn: "1h",
+            }
+          );
           res.status(200).json({
             message: "OK",
             result: { ...result.dataValues, password_hash: undefined },

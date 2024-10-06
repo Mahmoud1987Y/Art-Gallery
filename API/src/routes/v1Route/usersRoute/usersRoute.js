@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const authentication = require("../../../middlewares/authentication");
+const authorization = require("../../../middlewares/autherization");
 //const { errorHandler } = require("../../../middlewares/errorHandler");
 const {
   getUsers,
@@ -11,13 +13,11 @@ const {
 const usersRoute = Router();
 
 //get all users
-usersRoute.get("/", getUsers);
+usersRoute.get("/", authentication, getUsers);
 
 usersRoute.post("/login", login);
 usersRoute.post("/sign-up", addUser);
-usersRoute.put("/:id", updateUser);
-usersRoute.delete("/:id", deleteUser);
-
-//usersRoute.use(errorHandler);
+usersRoute.put("/:id", authentication, updateUser);
+usersRoute.delete("/:id", authentication, authorization(["admin"]), deleteUser);
 
 module.exports = usersRoute;
