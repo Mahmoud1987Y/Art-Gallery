@@ -30,7 +30,9 @@ exports.login = async (req, res, next) => {
     // get password fro DB
 
     try {
-      const result = await Users.findOne({ where: { email: data.email } });
+      const result = await Users.findOne({
+        where: { [Op.or]: [{ email: data.email }, { username: data.email }] },
+      });
       if (result) {
         if (verifiedEncryption(result.password_hash, data.password)) {
           const token = await jwt.sign(
