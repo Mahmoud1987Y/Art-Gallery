@@ -9,6 +9,8 @@ const {
   updateUser,
   deleteUser,
   refreshToken,
+  resetPassword,
+  resetConfirmation,
 } = require("../../../controllers/usersController");
 
 const usersRoute = Router();
@@ -21,5 +23,8 @@ usersRoute.post("/sign-up", addUser);
 usersRoute.put("/:id", authentication, updateUser);
 usersRoute.delete("/:id", authentication, authorization(["admin"]), deleteUser);
 usersRoute.post("/refresh-token", refreshToken);
+usersRoute.post("/reset", resetPassword);
+usersRoute.post("/passwordReset", resetConfirmation);
+//    const link = `http://${process.env.HOST_NAME}:${process.env.PORT}/passwordReset?token=${resetToken}&id=${userData.id}`;
 
 module.exports = usersRoute;

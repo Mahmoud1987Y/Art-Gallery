@@ -2,8 +2,10 @@ const logging = require("../helper/logging");
 const { Users, TokensModel } = require("../models/Users");
 const { validate } = require("../helper/validation");
 const { verifiedEncryption, hashPassword } = require("../helper/encrypt");
-const { where } = require("sequelize");
+const { where, Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../util/sendMail");
+const { mailTemplate } = require("../util/mailTemplate");
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -47,7 +49,7 @@ exports.login = async (req, res, next) => {
             process.env.SECRET_KEY,
             {
               subject: "Access API",
-              expiresIn: "10m",
+              expiresIn: process.env.ACCESS_TOKEN_DURATION,
             }
           );
 
@@ -65,7 +67,10 @@ exports.login = async (req, res, next) => {
               },
             },
             process.env.REFRESH_TOKEN_SECRET,
-            { subject: "refresh token", expiresIn: "1w" }
+            {
+              subject: "refresh token",
+              expiresIn: process.env.REFRESH_TOKEN_DURATION,
+            }
           );
           console.log(
             "************************************************************************"
@@ -74,7 +79,10 @@ exports.login = async (req, res, next) => {
           console.log(
             "************************************************************************"
           );
-
+          console.log(
+            "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+          );
+          console.log(result.id);
           await TokensModel.create({ refreshToken, user_id: result.id });
 
           res.status(200).json({
@@ -117,7 +125,7 @@ exports.addUser = async (req, res, next) => {
           const result = await Users.create(newUser);
           res.status(200).json({
             message: "ok",
-            user: { ...result, password: undefined },
+            user: { ...result.dataValues, password: undefined },
             error: {},
           });
         } catch (error) {
@@ -140,27 +148,118 @@ exports.deleteUser = (req, res, next) => {
   res.send("deleteUser");
 };
 
+// reset password controller
+
+exports.resetPassword = async (req, res, next) => {
+  const { emailOrUsername } = req.body;
+
+  try {
+    const userData = await Users.findOne({
+      where: {
+        [Op.or]: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      },
+    });
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ message: "username or email is not correct" });
+    }
+    const resetToken = await jwt.sign(
+      { email: userData.email },
+      process.env.RESET_TOKEN_SECRET,
+      { subject: "reset token", expiresIn: process.env.RESET_TOKEN_DURATION }
+    );
+    await Users.update(
+      { reset_token: resetToken },
+      {
+        where: {
+          id: userData.id,
+        },
+      }
+    );
+    const link = `http://${process.env.HOST_NAME}:${process.env.PORT}/api/v1/users/passwordReset?token=${resetToken}&id=${userData.id}`;
+    const to = userData.email;
+    const subject = "Reset password confirmation";
+    console.log(to);
+    const text = `hello ${userData.first_name} ${userData.last_name},to reset you password click the below link`;
+    const linkText = "press here to reset password";
+    await sendEmail(to, subject, mailTemplate(text, link, linkText));
+
+    res.status(201).json({ message: "reset email sent" });
+  } catch (error) {
+    throw new Error("cannot retrive user data");
+  }
+};
+
+exports.resetConfirmation = async (req, res, next) => {
+  const { token, id } = req.query;
+  const { password, confirmed_password } = req.body;
+  try {
+    const resetTokenConfirmation = await jwt.verify(
+      token,
+      process.env.RESET_TOKEN_SECRET
+    );
+
+    const validateData = await validate(req.body);
+    if (validateData.error) {
+      return res
+        .status(401)
+        .json({ message: validateData.error.details[0].message });
+    }
+    if (password !== confirmed_password) {
+      return res
+        .status(401)
+        .json({ message: "password and confirmed password not matched" });
+    }
+    const encryptedPassword = await hashPassword(password);
+
+    await Users.update(
+      { password_hash: encryptedPassword },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    res.status(201).json({ message: "password changed" });
+  } catch (error) {
+    if (
+      error instanceof jwt.JsonWebTokenError ||
+      error instanceof jwt.TokenExpiredError
+    ) {
+      res.status(403).json({ message: "token is expired or invalid" });
+    } else {
+      throw new Error("cannot change password");
+    }
+  }
+};
+
 // refresh token route
 
 exports.refreshToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
+    console.log("________________________________________________________");
+    console.log(refreshToken);
     if (!refreshToken) {
       return res.status(401).json({ message: "refresh token is not found" });
     }
+
     const decodedRefreshToken = await jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
+    console.log(decodedRefreshToken);
     const userRefreshToken = await TokensModel.findOne({
-      where: { refreshToken, id: decodedRefreshToken.id },
+      where: { refreshToken, user_id: decodedRefreshToken.user_data.id },
     });
+    console.log(` user refresh token ${userRefreshToken}`);
     if (!userRefreshToken) {
       return res
         .status(401)
         .json({ message: "Refresh token is invalid or expired" });
     }
-    await TokensModel.destroy({ where: { id: userRefreshToken.user_id } });
+    await TokensModel.destroy({ where: { id: userRefreshToken.id } });
     const token = await jwt.sign(
       {
         user_data: {
@@ -178,7 +277,7 @@ exports.refreshToken = async (req, res, next) => {
       process.env.SECRET_KEY,
       {
         subject: "Access API",
-        expiresIn: "10m",
+        expiresIn: process.env.ACCESS_TOKEN_DURATION,
       }
     );
 
@@ -197,7 +296,10 @@ exports.refreshToken = async (req, res, next) => {
         },
       },
       process.env.REFRESH_TOKEN_SECRET,
-      { subject: "refresh token", expiresIn: "1w" }
+      {
+        subject: "refresh token",
+        expiresIn: process.env.REFRESH_TOKEN_DURATION,
+      }
     );
 
     await TokensModel.create({
