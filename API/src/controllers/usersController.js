@@ -72,17 +72,6 @@ exports.login = async (req, res, next) => {
               expiresIn: process.env.REFRESH_TOKEN_DURATION,
             }
           );
-          console.log(
-            "************************************************************************"
-          );
-          console.log(refreshToken);
-          console.log(
-            "************************************************************************"
-          );
-          console.log(
-            "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-          );
-          console.log(result.id);
           await TokensModel.create({ refreshToken, user_id: result.id });
 
           res.status(200).json({
@@ -180,7 +169,7 @@ exports.resetPassword = async (req, res, next) => {
     const link = `http://${process.env.HOST_NAME}:${process.env.PORT}/api/v1/users/passwordReset?token=${resetToken}&id=${userData.id}`;
     const to = userData.email;
     const subject = "Reset password confirmation";
-    console.log(to);
+
     const text = `hello ${userData.first_name} ${userData.last_name},to reset you password click the below link`;
     const linkText = "press here to reset password";
     await sendEmail(to, subject, mailTemplate(text, link, linkText));
@@ -239,8 +228,7 @@ exports.resetConfirmation = async (req, res, next) => {
 exports.refreshToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
-    console.log("________________________________________________________");
-    console.log(refreshToken);
+
     if (!refreshToken) {
       return res.status(401).json({ message: "refresh token is not found" });
     }
@@ -249,11 +237,11 @@ exports.refreshToken = async (req, res, next) => {
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
-    console.log(decodedRefreshToken);
+
     const userRefreshToken = await TokensModel.findOne({
       where: { refreshToken, user_id: decodedRefreshToken.user_data.id },
     });
-    console.log(` user refresh token ${userRefreshToken}`);
+
     if (!userRefreshToken) {
       return res
         .status(401)

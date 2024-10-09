@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport({
   port: process.env.EMAIL_PORT,
   secure: false,
   auth: {
-    user: "paintseller111@gmail.com", //process.env.AUTH_USERNAME,
-    pass: "qkat pblt ndkq jtxn", //process.env.AUTH_PASSWORD,
+    user: process.env.AUTH_USERNAME,
+    pass: process.env.AUTH_PASSWORD,
   },
 });
 
@@ -24,7 +24,6 @@ async function sendEmail(to, subject, html) {
   });
   // send mail with defined transport object
   try {
-    console.log(process.env.AUTH_USERNAME, to, subject, html);
     const info = await transporter.sendMail({
       from: process.env.AUTH_USERNAME, // sender address
       to: to, // list of receivers
@@ -32,13 +31,6 @@ async function sendEmail(to, subject, html) {
 
       html: html, // html body
     });
-    console.log(
-      "emaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiil"
-    );
-    console.log(info);
-    console.log(
-      "emaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiil"
-    );
   } catch (error) {
     throw new Error(error);
   }
