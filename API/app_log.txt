@@ -2989,3 +2989,5 @@
 {"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-09T09:29:03.111Z"}
 {"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-09T09:29:14.616Z"}
 {"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-09T09:29:14.637Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-09T09:34:08.433Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-09T09:34:08.454Z"}
