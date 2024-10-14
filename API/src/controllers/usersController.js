@@ -31,7 +31,7 @@ exports.login = async (req, res, next) => {
 
     try {
       const result = await Users.findOne({
-        where: { [Op.or]: [{ email: data.email }, { username: data.email }] },
+        where: { [Op.or]: [{ email: data.inData }, { username: data.inData }] },
       });
       if (result) {
         if (verifiedEncryption(result.password_hash, data.password)) {

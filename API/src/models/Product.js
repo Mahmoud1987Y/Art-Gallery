@@ -3,11 +3,6 @@ const { connectMysql } = require("../database/connectMysql");
 const Product = connectMysql.define(
   "Product",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     title: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -44,7 +39,7 @@ const Product = connectMysql.define(
   },
   {
     tableName: "products",
-    timestamps: false, // Set to true if you want createdAt/updatedAt fields
+    // Set to true if you want createdAt/updatedAt fields
   }
 );
 
