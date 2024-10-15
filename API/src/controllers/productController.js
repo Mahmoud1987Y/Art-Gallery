@@ -3,7 +3,7 @@ const { logging } = require("../helper/logging");
 const { validate } = require("../helper/validation");
 const { error } = require("winston");
 const { Op } = require("sequelize");
-
+function findProduct() {}
 exports.addProduct = async (req, res, next) => {
   const data = req.body;
   const validateData = await validate(data);
@@ -25,20 +25,37 @@ exports.addProduct = async (req, res, next) => {
     return res.status(500).json({ message: "cannot add product" });
   }
 };
+
+//get all products or set search parameter with options of limit and offset
 exports.getProduct = async (req, res, next) => {
-  const title = req.query.title;
+  //const title = req.query.title;
   const page = req.query.page || 1;
   const limit = req.query.limit || 10;
-  console.log(title);
+  const { title, type, artist, size, description } = req.query;
+  console.log({ title, type });
   try {
     const result = await Product.findAll({
       where: {
-        title: title ? { [Op.like]: `%${title}%` } : { [Op.like]: `%%` },
+        [Op.and]: [
+          { title: title ? { [Op.like]: `%${title}%` } : { [Op.like]: `%%` } },
+          { type: type ? type : { [Op.like]: `%%` } },
+          {
+            artist: artist ? { [Op.like]: `%${artist}%` } : { [Op.like]: `%%` },
+          },
+          {
+            size: size ? size : { [Op.like]: `%%` },
+          },
+          {
+            description: description
+              ? { [Op.like]: `%${description}%` }
+              : { [Op.like]: `%%` },
+          },
+        ],
       },
       limit: parseInt(limit),
       offset: parseInt(limit * (page - 1)),
     });
-    res.status(201).json({ message: "OK", result });
+    res.status(200).json({ message: "OK", result });
   } catch (error) {
     logging.error(error);
     console.log(error);
