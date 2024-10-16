@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import schema from "../helper/validate";
 
-const Login = ({ onClose }) => {
+const Login = () => {
   const navigate = useNavigate();
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -24,7 +24,6 @@ const Login = ({ onClose }) => {
         console.log("Login successful:", data);
         localStorage.setItem("token", data.token); // Store token
         // Redirect or update UI
-        onClose();
       } else {
         // Handle login error (e.g., invalid credentials)
         console.error("Login failed:", data.message);
@@ -41,7 +40,9 @@ const Login = ({ onClose }) => {
     <div className="w-full h-screen absolute top-0 left-0 bg-black">
       <button
         className="z-50 w-8 bg-white rounded-md text-black absolute top-3 right-3 font-bold"
-        onClick={onClose}
+        onClick={() => {
+          navigate("/");
+        }}
       >
         X
       </button>

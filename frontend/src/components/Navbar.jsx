@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink } from "react-router-dom";
-const Navbar = () => {
+import ProfileMenu from "./ProfileMenu";
+const Navbar = ({onLoginClick }) => {
   const [visible, setVisible] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   return (
     <div className=" flex justify-between items-center py-5 font-medium">
       <img src={assets.logo} className="w-36" alt="logo" />
@@ -19,33 +21,24 @@ const Navbar = () => {
           <p>About Us</p>
           <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
-        <NavLink to="/contact" className="flex flex-col items-center gap-1">
+        <Link to="/contact" className="flex flex-col items-center gap-1">
           <p>Contact Us</p>
           <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-        </NavLink>
+        </Link>
       </ul>
       <div className="flex items-center gap-6">
         <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
-        <div className="group relative">
-          <img
-            src={assets.profile_icon}
-            className=" w-7 cursor-pointer"
-            alt="profile image"
-          />
-          <div className=" group-hover:block hidden absolute dropdown-menu right-1/2 pt-0">
-            <div className="flex flex-col gap-2 w-36 py-3 bg-slate-100 text-gray-500 rounded-md">
-              <p className="cursor-pointer  text-center hover:text-black">
-                My profile
-              </p>
-              <p className="cursor-pointer text-center hover:text-black">
-                Orders
-              </p>
-              <p className="cursor-pointer text-center hover:text-black">
-                Logout
-              </p>
-            </div>
+        {isLogin ? (
+          <ProfileMenu imgIcon={assets.profile_icon} />
+        ) : (
+          <div className="">
+            <button onClick={onLoginClick} className="flex flex-col items-center gap-1">
+              <p>Login</p>
+              <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            </button>
           </div>
-        </div>
+        )}
+
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} className="w-7 min-w-5" alt="" />
           <p className=" absolute right-[-5px] bottom-[-5px] text-center leading-4 bg-red-600 text-white aspect-square rounded-full text-[10px]   ">
