@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 
 import { UserProvider } from "./context/UserContext";
+import { ProductProvider } from "./context/ProductContext";
 
 function App() {
   // State to control the visibility of the login page
@@ -29,7 +30,7 @@ function App() {
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Navbar onLoginClick={() => setShowLogin(true)} />
       <UserProvider>
-        
+        <ProductProvider>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/collections" element={<Collections />} />
@@ -41,9 +42,8 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        
-      
-      {showLogin && <Login onClose={handleHideLogin} />}{" "}
+          {showLogin && <Login onClose={handleHideLogin} />}{" "}
+        </ProductProvider>
       </UserProvider>
       {/* Render Login when showLogin is true */}
     </div>
