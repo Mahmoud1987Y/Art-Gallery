@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
-const Navbar = ({onLoginClick }) => {
+const Navbar = ({ onLoginClick }) => {
   const [visible, setVisible] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   return (
@@ -32,7 +32,10 @@ const Navbar = ({onLoginClick }) => {
           <ProfileMenu imgIcon={assets.profile_icon} />
         ) : (
           <div className="">
-            <button onClick={onLoginClick} className="flex flex-col items-center gap-1">
+            <button
+              onClick={onLoginClick}
+              className="flex flex-col items-center gap-1"
+            >
               <p>Login</p>
               <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
             </button>

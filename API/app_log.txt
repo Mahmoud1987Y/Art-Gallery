@@ -3767,3 +3767,29 @@
 {"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-15T05:42:41.186Z"}
 {"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-15T05:42:45.150Z"}
 {"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-15T05:42:45.169Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T04:12:20.176Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-16T04:12:20.215Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T07:21:47.384Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3000","timestamp":"2024-10-16T07:21:47.404Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T07:41:41.503Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-16T07:41:41.526Z"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:41:57.136Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:42:17.978Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:42:33.703Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:43:46.994Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:44:45.000Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:52:42.493Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:52:48.395Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:54:27.401Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:55:50.826Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:55:51.352Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:55:56.304Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:57:22.384Z","type":"entity.parse.failed"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T07:58:25.458Z","type":"entity.parse.failed"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T08:59:50.632Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-16T08:59:50.665Z"}
+{"body":"\"\"","expose":true,"level":"error","status":400,"statusCode":400,"timestamp":"2024-10-16T09:00:09.099Z","type":"entity.parse.failed"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T09:10:22.706Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-16T09:10:22.724Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-16T13:37:47.380Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-16T13:37:47.401Z"}
