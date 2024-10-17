@@ -4,6 +4,7 @@ const authorization = require("../../../middlewares/autherization");
 const {
   addProduct,
   getProduct,
+  getLatestProducts,
 } = require("../../../controllers/productController");
 
 const productsRouter = Router();
@@ -15,5 +16,5 @@ productsRouter.post(
   addProduct
 );
 productsRouter.get("/", getProduct);
-
+productsRouter.get("/latest", getLatestProducts);
 module.exports = productsRouter;

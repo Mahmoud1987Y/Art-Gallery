@@ -62,3 +62,17 @@ exports.getProduct = async (req, res, next) => {
     return res.status(401).json({ message: "cannot retrive data" });
   }
 };
+
+exports.getLatestProducts = async (req, res, next) => {
+  try {
+    const latestProducts = await Product.findAll({
+      order: [["createdAt", "DESC"]], // Sort by createdAt in descending order (latest first)
+      limit: 8, // Limit the result to the latest 8 products
+    });
+
+    res.status(200).json(latestProducts);
+  } catch (error) {
+    logging.error(error);
+    res.status(500).json({ message: "Error fetching latest products" });
+  }
+};
