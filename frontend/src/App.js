@@ -19,6 +19,7 @@ import { ProductProvider } from "./context/ProductContext";
 
 function App() {
   // State to control the visibility of the login page
+  const [visible, setVisible] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
   // Function to hide the login page
@@ -27,8 +28,16 @@ function App() {
   };
 
   return (
-    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <Navbar onLoginClick={() => setShowLogin(true)} />
+    <div
+      className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${
+        visible ? "overflow-hidden" : ""
+      }`}
+    >
+      <Navbar
+        onLoginClick={() => setShowLogin(true)}
+        visible={visible}
+        setVisible={setVisible}
+      />
       <UserProvider>
         <ProductProvider>
           <Routes>

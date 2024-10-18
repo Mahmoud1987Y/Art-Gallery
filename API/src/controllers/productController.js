@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Product } = require("../models/Product");
 const { logging } = require("../helper/logging");
 const { validate } = require("../helper/validation");
@@ -6,6 +7,7 @@ const { Op } = require("sequelize");
 function findProduct() {}
 exports.addProduct = async (req, res, next) => {
   const data = req.body;
+
   const validateData = await validate(data);
   if (validateData.error) {
     return res
@@ -14,8 +16,13 @@ exports.addProduct = async (req, res, next) => {
   }
   //add to database
   try {
-    const newProduct = { ...data };
-    console.log(newProduct);
+    let img_url = null;
+    if (req.file) {
+      img_url = `${process.env.MAIN_PATH}:${process.env.PORT}/public/images/${req.file.filename}`;
+    }
+
+    const newProduct = { ...data, img_url };
+
     const result = await Product.create(newProduct);
     return res
       .status(200)
@@ -65,14 +72,27 @@ exports.getProduct = async (req, res, next) => {
 
 exports.getLatestProducts = async (req, res, next) => {
   try {
-    const latestProducts = await Product.findAll({
+    const result = await Product.findAll({
       order: [["createdAt", "DESC"]], // Sort by createdAt in descending order (latest first)
       limit: 8, // Limit the result to the latest 8 products
     });
 
-    res.status(200).json(latestProducts);
+    res.status(200).json({ message: "OK", result });
   } catch (error) {
     logging.error(error);
     res.status(500).json({ message: "Error fetching latest products" });
+  }
+};
+exports.getBestSellerProducts = async (req, res, next) => {
+  try {
+    const result = await Product.findAll({
+      where: { is_featured: true }, // Sort by createdAt in descending order (latest first)
+      limit: 8, // Limit the result to the latest 8 products
+    });
+
+    res.status(200).json({ message: "OK", result });
+  } catch (error) {
+    logging.error(error);
+    res.status(500).json({ message: "Error fetching best seller products" });
   }
 };

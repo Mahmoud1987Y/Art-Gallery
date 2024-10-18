@@ -7,13 +7,25 @@ const { errorHandler } = require("./middlewares/errorHandler");
 const { logging } = require("./helper/logging");
 const { connectMysql } = require("./database/connectMysql");
 const v1Route = require("./routes/v1Route/v1Route");
+const path = require("path");
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(errorHandler);
+console.log(path.join(__dirname, "public"));
+app.use(
+  "/public",
 
+  express.static(path.join(__dirname, "..", "public"), {
+    setHeaders: function (res, path) {
+      // Allow cross-origin access for resources like images
+      res.set("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  })
+);
 app.get("/matrics", (req, res) => {
   const register = new client.Registry();
   register.setDefaultLabels({ app: "art_gallery" });

@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 import Title from "./Title";
+import ProductItem from "./ProductItem";
 
 const LatestCollection = () => {
-  const { products, loading, error, fetchProductsData } =
+  const { currency, latestProducts, loading, error, fetchProductsData } =
     useContext(ProductContext);
-
+  useEffect(() => {
+    fetchProductsData("", false, false, true);
+  }, []);
+  //const data = fetchProductsData("", true);
   return (
     <div className="my-10">
       <div className="text-center py-8 text-3xl">
@@ -15,14 +19,25 @@ const LatestCollection = () => {
           perferendis modi.
         </p>
       </div>
-      <div>
-        
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 gap-y-6">
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          latestProducts.map((product) => (
+            <ProductItem
+              key={product.id}
+              title={product.title}
+              image={product.img_url}
+              price={product.price}
+              productId={product.id}
+              currency={currency}
+            />
+          ))
+        )}
       </div>
-      {/* <ul>
-        {products.map((product) => (
-          <li key={product.id}>{product.title}</li>
-        ))}
-      </ul> */}
     </div>
   );
 };
