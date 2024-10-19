@@ -38,7 +38,7 @@ exports.getProduct = async (req, res, next) => {
   //const title = req.query.title;
   const page = req.query.page || 1;
   const limit = req.query.limit || 10;
-  const { title, type, artist, size, description } = req.query;
+  const { title, type, artist, size, description, min, max, sort } = req.query;
   console.log({ title, type });
   try {
     const result = await Product.findAll({
@@ -53,12 +53,25 @@ exports.getProduct = async (req, res, next) => {
             size: size ? size : { [Op.like]: `%%` },
           },
           {
+            price:
+              min || max
+                ? {
+                    [Op.between]: [
+                      min ? parseFloat(min) : 0,
+                      max ? parseFloat(max) : 1000000,
+                    ],
+                  }
+                : { [Op.gte]: 0 },
+          },
+          {
             description: description
               ? { [Op.like]: `%${description}%` }
               : { [Op.like]: `%%` },
           },
         ],
       },
+      order: sort?[["price", sort == "low" ? "ASC" : sort == "high" ? "DESC" : ""]]:"",
+
       limit: parseInt(limit),
       offset: parseInt(limit * (page - 1)),
     });

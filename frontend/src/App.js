@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 
 import { UserProvider } from "./context/UserContext";
 import { ProductProvider } from "./context/ProductContext";
+import Footer from "./components/Footer";
 
 function App() {
   // State to control the visibility of the login page
@@ -52,6 +53,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           {showLogin && <Login onClose={handleHideLogin} />}{" "}
+        <Footer/>
         </ProductProvider>
       </UserProvider>
       {/* Render Login when showLogin is true */}

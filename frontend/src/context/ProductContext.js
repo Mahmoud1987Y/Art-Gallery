@@ -9,6 +9,9 @@ export const ProductProvider = ({ children }) => {
   const [currency, setCurrency] = useState("LE");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const fetchProductsData = async (
     searchPattern = "",
@@ -66,6 +69,12 @@ export const ProductProvider = ({ children }) => {
         error,
         fetchProductsData,
         currency,
+        page,
+        setPage,
+        search,
+        setSearch,
+        showSearch,
+        setShowSearch,
       }}
     >
       {children}

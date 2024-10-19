@@ -6,6 +6,12 @@ import menu_icon from "./menu.png";
 import back_icon from "./back.png";
 import hero_img from "./hero.jpg";
 import poster from "./poster.jpg";
+import support_img from "./support.png";
+import exchang_img from "./return-box.png";
+import return_img from "./high-quality.png";
+import right_arrow from "./right-arrow.png";
+import left_arrow from "./left-arrow.png";
+import filter_icon from "./filter.png";
 
 export const assets = {
   logo,
@@ -16,4 +22,10 @@ export const assets = {
   back_icon,
   hero_img,
   poster,
+  support_img,
+  exchang_img,
+  return_img,
+  right_arrow,
+  left_arrow,
+  filter_icon,
 };
