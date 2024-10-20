@@ -41,4 +41,18 @@ exports.TokensModel = connectMysql.define("TokensModel", {
     type: DataTypes.INTEGER,
     references: { model: this.Users, key: "id" },
   },
+  expiresAt: {
+    type: DataTypes.DATE,
+  },
+});
+
+exports.BlacklistedTokens = connectMysql.define('BlacklistedTokens', {
+  token: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  expiresAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  }
 });

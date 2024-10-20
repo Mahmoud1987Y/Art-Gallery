@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom"; // Changed Router to BrowserRouter
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Home from "./pages/Home";
 import Collections from "./pages/Collections";
 import AboutUs from "./pages/AboutUs";
@@ -14,50 +14,47 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 
-import { UserProvider } from "./context/UserContext";
+import { UserContext, UserProvider } from "./context/UserContext";
 import { ProductProvider } from "./context/ProductContext";
+import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 
 function App() {
   // State to control the visibility of the login page
-  const [visible, setVisible] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const { handleHideLogin, showLogin, setShowLogin, visible, setVisible } =
+    useContext(UserContext);
 
   // Function to hide the login page
-  const handleHideLogin = () => {
-    setShowLogin(false);
-  };
 
   return (
     <div
       className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${
         visible ? "overflow-hidden" : ""
       }`}
-    ><ProductProvider>
-      <Navbar
-        onLoginClick={() => setShowLogin(true)}
-        visible={visible}
-        setVisible={setVisible}
-      />
-      <UserProvider>
-        
-          <SearchBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/product/:productId" element={<Product />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/place-order" element={<PlaceOrder />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path='/404' element={<NotFound/>}/>
-          </Routes>
-          {showLogin && <Login onClose={handleHideLogin} />} <Footer />
-        
-      </UserProvider></ProductProvider>
+    >
+      
+            <Navbar
+              onLoginClick={() => setShowLogin(true)}
+              visible={visible}
+              setVisible={setVisible}
+            />
+            <SearchBar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collections" element={<Collections />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/product/:productId" element={<Product />} />
+              <Route path="/cart" element={<Cart />} />
+
+              <Route path="/place-order" element={<PlaceOrder />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/404" element={<NotFound />} />
+            </Routes>
+            {showLogin && <Login onClose={handleHideLogin} />} <Footer />
+         
       {/* Render Login when showLogin is true */}
     </div>
   );

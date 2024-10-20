@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
-import { ProductContext } from '../context/ProductContext';
+import React, { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems, setCartItems, currency } = useContext(ProductContext);
-
+  const navigate = useNavigate();
   // Calculate total price of all items in the cart
   const totalPrice = cartItems.reduce((total, item) => {
     const price = Number(item.cartLength.price); // Ensure price is a number
@@ -16,7 +17,7 @@ const Cart = () => {
   };
 
   const handleOrderNow = () => {
-    alert('Order placed successfully!');
+    navigate("/place-order");
   };
 
   return (
@@ -46,7 +47,8 @@ const Cart = () => {
                     <td className="px-4 py-2">
                       {currency} {Number(item.cartLength.price).toFixed(2)}
                     </td>
-                    <td className="px-4 py-2">1</td> {/* Assuming quantity is 1 */}
+                    <td className="px-4 py-2">1</td>{" "}
+                    {/* Assuming quantity is 1 */}
                     <td className="px-4 py-2">
                       {currency} {Number(item.cartLength.price).toFixed(2)}
                     </td>
@@ -67,7 +69,10 @@ const Cart = () => {
           {/* Mobile View: Use cards for smaller screens */}
           <div className="sm:hidden">
             {cartItems.map((item, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4 shadow-md">
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 mb-4 shadow-md"
+              >
                 <h2 className="font-bold text-lg">{item.cartLength.title}</h2>
                 <p className="text-gray-700">
                   Price: {currency} {Number(item.cartLength.price).toFixed(2)}

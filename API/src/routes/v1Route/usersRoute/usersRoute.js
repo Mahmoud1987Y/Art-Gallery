@@ -11,6 +11,7 @@ const {
   refreshToken,
   resetPassword,
   resetConfirmation,
+  logout
 } = require("../../../controllers/usersController");
 
 const usersRoute = Router();
@@ -26,5 +27,5 @@ usersRoute.post("/refresh-token", refreshToken);
 usersRoute.post("/reset", resetPassword);
 usersRoute.post("/passwordReset", resetConfirmation);
 //    const link = `http://${process.env.HOST_NAME}:${process.env.PORT}/passwordReset?token=${resetToken}&id=${userData.id}`;
-
+usersRoute.post('/logout',authentication,logout)
 module.exports = usersRoute;

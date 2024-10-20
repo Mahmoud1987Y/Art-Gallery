@@ -8,6 +8,11 @@ export const UserProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [postDataPayload, setPostDataPayload] = useState(null);
   const [registerDataPayload, setRegisterDataPayload] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const handleHideLogin = () => {
+    setShowLogin(false);
+  };
 
   const loginUserData = async (inputData) => {
     setLoading(true);
@@ -94,6 +99,7 @@ export const UserProvider = ({ children }) => {
         error,
         triggerPostRequest,
         triggerRegisterRequest,
+        handleHideLogin,showLogin,setShowLogin,visible,setVisible
       }}
     >
       {children} {/* Fixed spelling from 'childern' to 'children' */}

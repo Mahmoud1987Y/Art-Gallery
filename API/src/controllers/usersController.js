@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("../util/sendMail");
 const { mailTemplate } = require("../util/mailTemplate");
 
+const refreshTokenExpiresAt = new Date();
+refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30);
 exports.getUsers = async (req, res, next) => {
   try {
     const result = await Users.findAll();
@@ -21,6 +23,7 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
+  // 30 days from now
   const data = req.body;
   // check validation for req.body
   const validateData = await validate(data);
@@ -74,7 +77,11 @@ exports.login = async (req, res, next) => {
               expiresIn: process.env.REFRESH_TOKEN_DURATION,
             }
           );
-          await TokensModel.create({ refreshToken, user_id: result.id });
+          await TokensModel.create({
+            refreshToken,
+            user_id: result.id,
+            expiresAt: refreshTokenExpiresAt,
+          });
 
           res.status(200).json({
             message: "OK",
@@ -232,31 +239,40 @@ exports.refreshToken = async (req, res, next) => {
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
-      return res.status(401).json({ message: "refresh token is not found" });
+      return res.status(401).json({ message: "Refresh token not found" });
     }
 
+    // Verify the refresh token
     const decodedRefreshToken = await jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
 
     const userRefreshToken = await TokensModel.findOne({
-      where: { refreshToken, user_id: decodedRefreshToken.user_data.id },
+      where: {
+        refreshToken,
+        user_id: decodedRefreshToken.user_data.id,
+        expiresAt: { [Op.gt]: new Date() },
+      },
     });
 
     if (!userRefreshToken) {
       return res
         .status(401)
-        .json({ message: "Refresh token is invalid or expired" });
+        .json({ message: "Invalid or expired refresh token" });
     }
+
+    // Destroy the old refresh token (for security)
     await TokensModel.destroy({ where: { id: userRefreshToken.id } });
-    const token = await jwt.sign(
+
+    // Create a new access token
+    const accessToken = await jwt.sign(
       {
         user_data: {
-          id: decodedRefreshToken.user_data.user_id,
+          id: decodedRefreshToken.user_data.id,
           username: decodedRefreshToken.user_data.username,
           email: decodedRefreshToken.user_data.email,
-          firest_name: decodedRefreshToken.user_data.firest_name,
+          first_name: decodedRefreshToken.user_data.first_name,
           last_name: decodedRefreshToken.user_data.last_name,
           profile_picture_url:
             decodedRefreshToken.user_data.profile_picture_url,
@@ -271,13 +287,14 @@ exports.refreshToken = async (req, res, next) => {
       }
     );
 
+    // Create a new refresh token
     const newRefreshToken = await jwt.sign(
       {
         user_data: {
-          user_id: decodedRefreshToken.user_data.user_id,
+          id: decodedRefreshToken.user_data.id,
           username: decodedRefreshToken.user_data.username,
           email: decodedRefreshToken.user_data.email,
-          firest_name: decodedRefreshToken.user_data.firest_name,
+          first_name: decodedRefreshToken.user_data.first_name,
           last_name: decodedRefreshToken.user_data.last_name,
           profile_picture_url:
             decodedRefreshToken.user_data.profile_picture_url,
@@ -292,15 +309,18 @@ exports.refreshToken = async (req, res, next) => {
       }
     );
 
+    // Save the new refresh token in the database
+
     await TokensModel.create({
       refreshToken: newRefreshToken,
-      user_id: decodedRefreshToken.user_data.user_id,
+      user_id: decodedRefreshToken.user_data.id,
+      expiresAt: refreshTokenExpiresAt,
     });
 
+    // Return the new access and refresh tokens
     res.status(200).json({
       message: "OK",
-
-      token: token,
+      token: accessToken,
       refreshToken: newRefreshToken,
       error: {},
     });
@@ -311,7 +331,39 @@ exports.refreshToken = async (req, res, next) => {
     ) {
       return res
         .status(401)
-        .json({ message: "refresh token is invalid or expired" });
+        .json({ message: "Refresh token is invalid or expired" });
+    } else {
+      next(error);
     }
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const { refreshToken, accessToken } = req.body;
+
+    if (!refreshToken || !accessToken) {
+      return res.status(400).json({ message: "Both refresh token and access token are required" });
+    }
+
+    // Invalidate the refresh token
+    const result = await TokensModel.destroy({
+      where: { refreshToken }
+    });
+
+    if (result === 0) {
+      return res.status(400).json({ message: "Refresh token not found or already invalidated" });
+    }
+
+    // Add the access token to the blacklist
+    const decodedAccessToken = jwt.decode(accessToken);
+    await BlacklistedTokens.create({
+      token: accessToken,
+      expiresAt: new Date(decodedAccessToken.exp * 1000) // Store expiration time
+    });
+
+    res.status(200).json({ message: "Logout successful, tokens invalidated" });
+  } catch (error) {
+    next(error);
   }
 };
