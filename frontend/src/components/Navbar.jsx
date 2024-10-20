@@ -54,7 +54,7 @@ const Navbar = ({ onLoginClick, setVisible, visible }) => {
 
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} className="w-7 min-w-5" alt="" />
-          <p className=" absolute right-[-5px] bottom-[-5px] text-center leading-4 bg-red-600 text-white aspect-square rounded-full text-[10px]   ">
+          <p className=" absolute right-[-5px] bottom-[-5px] text-center leading-4 bg-red-600 text-white aspect-square rounded-full px-1 text-[10px]   ">
             {cartItems.length}
           </p>
         </Link>

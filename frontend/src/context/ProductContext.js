@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState ,useEffect} from "react";
 
 export const ProductContext = createContext();
 
@@ -12,7 +12,15 @@ export const ProductProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('cartItems');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    // Store cart items in localStorage whenever cartItems change
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const fetchProductsData = async (
     searchPattern = "",
@@ -59,9 +67,7 @@ export const ProductProvider = ({ children }) => {
 
   //add to cart function to add items to cart
 
-  const addToCart = (item) => {
-    setCartItems(cartItems[cartItems.length+1]= item);
-  };
+  
 
   return (
     <ProductContext.Provider
@@ -79,7 +85,7 @@ export const ProductProvider = ({ children }) => {
         setSearch,
         showSearch,
         setShowSearch,
-        cartItems,setCartItems,addToCart
+        cartItems,setCartItems
       }}
     >
       {children}

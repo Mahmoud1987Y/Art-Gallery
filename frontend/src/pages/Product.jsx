@@ -6,7 +6,7 @@ const Product = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const [product, setProduct] = useState({});
-  const { currency, cartItems, addToCart } = useContext(ProductContext);
+  const { currency, cartItems, setCartItems } = useContext(ProductContext);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -23,9 +23,13 @@ const Product = () => {
     fetchProduct(); // Call the async function
   }, [productId]); // Add productId as a dependency
 
-  function handleAddToCart(product){
-    addToCart(product)
-    console.log(cartItems)
+  function handleAddToCart(){
+    //addToCart(product)
+   
+    let cartLength = cartItems.length
+    setCartItems((prev)=>{
+      return [...prev,{cartLength:product}]
+    })
   }
   return product ? (
     <div className=" border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
@@ -72,7 +76,7 @@ const Product = () => {
           </div>
           <div className="flex mt-5 justify-center">
             <button
-              onClick={handleAddToCart(product)} 
+              onClick={handleAddToCart} 
               className=" rounded-full bg-orange-600 text-s text-white font-semibold m-3 px-5 py-2 w-3/5 hover:bg-orange-700 hover:scale-125 transition  duration-300"
             >
               Add To Cart
