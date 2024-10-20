@@ -70,7 +70,9 @@ exports.getProduct = async (req, res, next) => {
           },
         ],
       },
-      order: sort?[["price", sort == "low" ? "ASC" : sort == "high" ? "DESC" : ""]]:"",
+      order: sort
+        ? [["price", sort == "low" ? "ASC" : sort == "high" ? "DESC" : ""]]
+        : "",
 
       limit: parseInt(limit),
       offset: parseInt(limit * (page - 1)),
@@ -107,5 +109,16 @@ exports.getBestSellerProducts = async (req, res, next) => {
   } catch (error) {
     logging.error(error);
     res.status(500).json({ message: "Error fetching best seller products" });
+  }
+};
+
+exports.getProductById = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const result = await Product.findByPk(productId);
+    res.status(200).json({ message: "OK", result });
+  } catch (error) {
+    logging.error(error);
+    res.status(404).json({ message: "cannot find product" });
   }
 };

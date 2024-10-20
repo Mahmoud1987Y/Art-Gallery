@@ -4099,3 +4099,101 @@
 {"level":"error","name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","timestamp":"2024-10-19T14:05:26.695Z"}
 {"level":"error","name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","timestamp":"2024-10-19T14:05:32.554Z"}
 {"level":"error","name":"SequelizeDatabaseError","original":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"parameters":{},"parent":{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","sqlMessage":"Unknown column 'Product.price`' in 'order clause'","sqlState":"42S22"},"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') ORDER BY `Product`.`price``` LIMIT 0, 10;","timestamp":"2024-10-19T14:07:23.619Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T15:17:36.774Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T15:17:36.793Z"}
+{"level":"error","name":"SequelizeDatabaseError","original":{"code":"ER_SP_UNDECLARED_VAR","errno":1327,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","sqlMessage":"Undeclared variable: NaN","sqlState":"42000"},"parameters":{},"parent":{"code":"ER_SP_UNDECLARED_VAR","errno":1327,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","sqlMessage":"Undeclared variable: NaN","sqlState":"42000"},"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","timestamp":"2024-10-19T18:13:39.738Z"}
+{"level":"error","name":"SequelizeDatabaseError","original":{"code":"ER_SP_UNDECLARED_VAR","errno":1327,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","sqlMessage":"Undeclared variable: NaN","sqlState":"42000"},"parameters":{},"parent":{"code":"ER_SP_UNDECLARED_VAR","errno":1327,"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","sqlMessage":"Undeclared variable: NaN","sqlState":"42000"},"sql":"SELECT `id`, `title`, `artist`, `type`, `price`, `quantity`, `size`, `description`, `is_featured`, `img_url`, `createdAt`, `updatedAt` FROM `Products` AS `Product` WHERE (`Product`.`title` LIKE '%%' AND `Product`.`type` LIKE '%%' AND `Product`.`artist` LIKE '%%' AND `Product`.`size` LIKE '%%' AND `Product`.`price` >= 0 AND `Product`.`description` LIKE '%%') LIMIT NaN, 10;","timestamp":"2024-10-19T18:14:09.193Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T18:57:34.707Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T18:57:34.726Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T18:57:38.053Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T18:57:38.072Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:32:53.015Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:32:53.035Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:52:04.139Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:52:04.163Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:52:06.897Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:52:06.916Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:52:11.238Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:52:11.256Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:52:16.346Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:52:16.363Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:52:30.709Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:52:30.727Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:01.576Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:01.594Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:03.864Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:03.882Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:05.815Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:05.834Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:09.454Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:09.472Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:12.666Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:12.684Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:14.234Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:14.253Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:26.900Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:26.917Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:30.375Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:30.393Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:33.867Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:33.885Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:36.988Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:37.006Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:54:46.383Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:54:46.401Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:55:02.680Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:55:02.697Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:55:09.845Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:55:09.863Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:16.779Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:16.797Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:19.657Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:19.676Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:30.622Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:30.640Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:33.708Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:33.728Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:37.937Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:37.955Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:40.046Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:40.066Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:44.480Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:44.500Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:56.320Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:56.342Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:56:58.944Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:56:58.964Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:06.069Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:06.087Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:35.627Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:35.645Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:38.296Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:38.314Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:40.056Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:40.075Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:42.803Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:42.822Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:44.607Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:44.628Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:49.552Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:49.571Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:57:53.437Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:57:53.455Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:07.936Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:07.954Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:12.116Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:12.135Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:15.324Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:15.346Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:22.922Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:22.942Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:33.117Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:33.137Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:34.773Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:34.791Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:43.838Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:43.861Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-19T19:58:45.663Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-19T19:58:45.681Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-20T03:17:15.042Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-20T03:17:15.063Z"}

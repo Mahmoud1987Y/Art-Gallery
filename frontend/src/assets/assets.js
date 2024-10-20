@@ -12,6 +12,7 @@ import return_img from "./high-quality.png";
 import right_arrow from "./right-arrow.png";
 import left_arrow from "./left-arrow.png";
 import filter_icon from "./filter.png";
+import close_icon from "./close.png";
 
 export const assets = {
   logo,
@@ -28,4 +29,5 @@ export const assets = {
   right_arrow,
   left_arrow,
   filter_icon,
+  close_icon,
 };

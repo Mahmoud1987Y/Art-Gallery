@@ -3,7 +3,7 @@ import { ProductContext } from "../context/ProductContext";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 import { assets } from "../assets/assets";
-import Filter from "../components/Filter";
+
 
 const Collections = () => {
   const {
@@ -14,16 +14,23 @@ const Collections = () => {
     currency,
     page,
     setPage,
+    search
   } = useContext(ProductContext);
   const [searchPattern, setSearchPattern] = useState("?title=");
   const [filter, setFilter] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [type, setType] = useState("");
   const [sortOption, setSortOption] = useState("");
-  // use effect to fetch data from api
   useEffect(() => {
+    setSearchPattern(`?title=${search}`);
+  }, [search]);
+
+  // use effect to fetch data from api
+
+  useEffect(() => {
+    
     fetchProductsData(searchPattern, false, false, false);
-  }, [searchPattern]);
+  }, [searchPattern,search]);
 
   //handle pagination
   function handlePrev() {
@@ -62,26 +69,37 @@ const Collections = () => {
   let min = 0;
   let max = 1000000;
   function handleMinPrice(e) {
-    const newMin = e.target.value;
-    const searchTerm = `min=${newMin}`;
-
-    if (searchPattern.includes("min=")) {
-      setSearchPattern((prev) => prev.replace(/min=\d+/, searchTerm));
+    const newMin = e.target.value.trim(); // Get the value and remove unnecessary spaces
+  
+    if (newMin === "") {
+      // Remove min price filter when the field is cleared
+      setSearchPattern((prev) => prev.replace(/&min=\d+/, ""));
     } else {
-      setSearchPattern((prev) => `${prev}&${searchTerm}`);
+      const searchTerm = `min=${newMin}`;
+      if (searchPattern.includes("min=")) {
+        setSearchPattern((prev) => prev.replace(/min=\d+/, searchTerm));
+      } else {
+        setSearchPattern((prev) => `${prev}&${searchTerm}`);
+      }
     }
   }
-
+  
   function handleMaxPrice(e) {
-    const newMax = e.target.value;
-    const searchTerm = `max=${newMax}`;
-
-    if (searchPattern.includes("max=")) {
-      setSearchPattern((prev) => prev.replace(/max=\d+/, searchTerm));
+    const newMax = e.target.value.trim(); // Get the value and remove unnecessary spaces
+  
+    if (newMax === "") {
+      // Remove max price filter when the field is cleared
+      setSearchPattern((prev) => prev.replace(/&max=\d+/, ""));
     } else {
-      setSearchPattern((prev) => `${prev}&${searchTerm}`);
+      const searchTerm = `max=${newMax}`;
+      if (searchPattern.includes("max=")) {
+        setSearchPattern((prev) => prev.replace(/max=\d+/, searchTerm));
+      } else {
+        setSearchPattern((prev) => `${prev}&${searchTerm}`);
+      }
     }
   }
+  
 
   //handle sorting options
 
@@ -281,14 +299,14 @@ const Collections = () => {
           </div>
         </div>
         <main className="w-full flex flex-col  sm:flex-col pb-20">
-          <div className="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 place-items-center">
+          <div className="w-full md:gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 place-items-center md:items-center">
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
               <p>Error: {error}</p>
             ) : (
               products.map((product) => (
-                <div className="w-full sm:w-full md:w-full">
+                <div className="flex flex-col w-full sm:w-full md:w-full">
                   <ProductItem
                     key={product.id}
                     title={product.title}

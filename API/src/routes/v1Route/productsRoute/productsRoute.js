@@ -6,6 +6,7 @@ const {
   getProduct,
   getLatestProducts,
   getBestSellerProducts,
+  getProductById
 } = require("../../../controllers/productController");
 const upload = require("../../../middlewares/upload ");
 
@@ -21,4 +22,5 @@ productsRouter.post(
 productsRouter.get("/", getProduct);
 productsRouter.get("/latest", getLatestProducts);
 productsRouter.get("/best-seller", getBestSellerProducts);
+productsRouter.get('/:id',getProductById)
 module.exports = productsRouter;

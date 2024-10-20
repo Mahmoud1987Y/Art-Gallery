@@ -12,6 +12,7 @@ export const ProductProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [cartItems, setCartItems] = useState({});
 
   const fetchProductsData = async (
     searchPattern = "",
@@ -55,9 +56,12 @@ export const ProductProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  /* useEffect(() => {
-    fetchProductsData();
-  }, []); */
+
+  //add to cart function to add items to cart
+
+  const addToCart = (item) => {
+    setCartItems(cartItems[cartItems.length+1]= item);
+  };
 
   return (
     <ProductContext.Provider
@@ -75,6 +79,7 @@ export const ProductProvider = ({ children }) => {
         setSearch,
         showSearch,
         setShowSearch,
+        cartItems,setCartItems,addToCart
       }}
     >
       {children}

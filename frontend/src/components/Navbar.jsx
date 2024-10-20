@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 import { isVisible } from "@testing-library/user-event/dist/utils";
-const Navbar = ({ onLoginClick,setVisible,visible }) => {
-  
+import { ProductContext } from "../context/ProductContext";
+const Navbar = ({ onLoginClick, setVisible, visible }) => {
   const [isLogin, setIsLogin] = useState(false);
+  const { showSearch, setShowSearch,cartItems } = useContext(ProductContext);
   return (
-    <div
-      className={`flex justify-between items-center py-5 font-medium `}
-    >
+    <div className={`flex justify-between items-center py-5 font-medium `}>
       <Link to="/">
         <img src={assets.logo} className="w-36" alt="logo" />
       </Link>
@@ -32,7 +31,13 @@ const Navbar = ({ onLoginClick,setVisible,visible }) => {
         </Link>
       </ul>
       <div className="flex items-center gap-6">
-        <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
+        
+        <img
+          onClick={() => setShowSearch(true)}
+          src={assets.search_icon}
+          className="w-5 cursor-pointer"
+          alt=""
+        />
         {isLogin ? (
           <ProfileMenu imgIcon={assets.profile_icon} />
         ) : (
@@ -50,7 +55,7 @@ const Navbar = ({ onLoginClick,setVisible,visible }) => {
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} className="w-7 min-w-5" alt="" />
           <p className=" absolute right-[-5px] bottom-[-5px] text-center leading-4 bg-red-600 text-white aspect-square rounded-full text-[10px]   ">
-            10
+            {cartItems.length}
           </p>
         </Link>
         <img
