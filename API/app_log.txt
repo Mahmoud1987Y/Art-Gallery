@@ -4298,3 +4298,23 @@
 {"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-20T19:53:47.569Z"}
 {"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-21T03:04:47.884Z"}
 {"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-21T03:04:47.911Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-21T06:23:39.237Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-21T06:23:39.263Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:19.747Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:25.183Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:25.717Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:26.140Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:26.525Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:30.320Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:30.820Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:31.100Z"}
+{"level":"error","timestamp":"2024-10-21T07:56:31.299Z"}
+{"level":"error","timestamp":"2024-10-21T07:58:22.842Z"}
+{"level":"error","timestamp":"2024-10-21T07:58:34.740Z"}
+{"level":"error","timestamp":"2024-10-21T07:59:26.578Z"}
+{"level":"error","timestamp":"2024-10-21T08:02:04.841Z"}
+{"level":"error","timestamp":"2024-10-21T08:02:08.242Z"}
+{"level":"error","timestamp":"2024-10-21T08:02:08.882Z"}
+{"level":"error","timestamp":"2024-10-21T08:05:39.475Z"}
+{"level":"error","timestamp":"2024-10-21T08:07:01.094Z"}
+{"level":"error","timestamp":"2024-10-21T08:07:26.169Z"}

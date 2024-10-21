@@ -306,9 +306,9 @@ const Collections = () => {
               <p>Error: {error}</p>
             ) : (
               products.map((product) => (
-                <div className="flex flex-col w-full sm:w-full md:w-full">
+                <div  key={product.id} className="flex flex-col w-full sm:w-full md:w-full">
                   <ProductItem
-                    key={product.id}
+                   
                     title={product.title}
                     image={product.img_url}
                     price={product.price}

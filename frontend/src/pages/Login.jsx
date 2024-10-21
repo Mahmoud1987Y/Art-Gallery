@@ -1,93 +1,91 @@
 import React, { useContext } from "react";
-import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
-import { assets } from "../assets/assets";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { data, triggerPostRequest, loading, error, handleHideLogin } = useContext(UserContext); // Use context to access state and actions
-  const navigate = useNavigate();
+  const { loginUserData, error, setShowLogin } = useContext(UserContext);
+const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      inData: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      inData: Yup.string()
+        .required("Username or Email is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(6, "Password must be at least 6 characters"),
+    }),
+    onSubmit: (values) => {
+      try {
+        loginUserData(values);
+        navigate('/')
 
-  const handleSubmit = async (values) => {
-    const inputData = { inData: values.inData, password: values.password };
-    triggerPostRequest(inputData);
-
-    // Wait for the response and navigate if successful
-    if (!loading && !error) {
-      console.log(data);
-      navigate("/"); // Redirect after successful login
-      handleHideLogin(); // Close the login modal
-    }
-  };
+      } catch (error) {
+        
+      }
+      
+    },
+  });
 
   return (
-    <div className="w-full h-screen absolute top-0 left-0 bg-black">
-      {/* X button to close the login modal */}
-      <button
-        className="z-50 w-8 bg-white rounded-md text-black absolute top-3 right-3 font-bold"
-        onClick={handleHideLogin} // Close the modal using the context function
-      >
-        X
-      </button>
-      <div className="flex sm:flex py-10">
-        <div className="flex flex-col w-full justify-between items-center sm:w-2/3 h-full">
-          <img className="w-36 text-center" src={assets.logo} alt="" />
-
-          <Formik
-            initialValues={{ inData: "", password: "" }}
-            onSubmit={handleSubmit} 
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              isSubmitting,
-            }) => (
-              <div className="w-full flex justify-center items-center">
-                <div className="sm:w-1/2">
-                  <h2 className="text-white text-3xl text-center mx-auto">Login</h2>
-
-                  <Form>
-                    <input
-                      type="text"
-                      name="inData"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.inData}
-                      placeholder="Enter email / username"
-                      className="w-full h-10 mb-2 bg-black border-b-2 border-gray-400 focus:outline-none text-white"
-                      id="inData"
-                    />
-
-                    <input
-                      type="password"
-                      name="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                      placeholder="Enter password"
-                      className="w-full h-10 mb-2 bg-black border-b-2 border-gray-400 focus:outline-none text-white"
-                    />
-
-                    <button
-                      className="w-full mt-6 h-10 bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
-                      type="submit"
-                      disabled={isSubmitting || loading} 
-                    >
-                      {isSubmitting || loading ? "Logging in..." : "Login"}
-                    </button>
-                  </Form>
-                </div>
-              </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="inData" className="block mb-1 text-sm font-medium text-gray-700">
+              Username or Email
+            </label>
+            <input
+              id="inData"
+              type="text"
+              {...formik.getFieldProps("inData")}
+              className={`border rounded-lg p-3 w-full transition duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none ${
+                formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
+            />
+            {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.usernameOrEmail}</div>
             )}
-          </Formik>
-        </div>
-        <div className="hidden md:w-1/3 md:block text-white">
-          <img
-            src={assets.poster}
-            alt=""
-            className="sm:object-contain h-full absolute top-0"
-          />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              {...formik.getFieldProps("password")}
+              className={`border rounded-lg p-3 w-full transition duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none ${
+                formik.touched.password && formik.errors.password
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
+            )}
+          </div>
+
+          {error.login && <div className="text-red-500 mb-4 text-sm">{error.login}</div>}
+
+          <button type="submit" className="bg-blue-600 text-white rounded-lg py-2 w-full hover:bg-blue-700 transition duration-200">
+            Login
+          </button>
+        </form>
+        <div className="mt-4 text-center">
+          <a href="#" className="text-blue-600 hover:underline" onClick={() => setShowLogin(false)}>
+            Register
+          </a>
+          <span className="mx-2">|</span>
+          <a href="#" className="text-blue-600 hover:underline">Forget Password?</a>
         </div>
       </div>
     </div>

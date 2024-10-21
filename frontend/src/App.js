@@ -22,12 +22,13 @@ import { ProductProvider } from "./context/ProductContext";
 import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+import Logout from "./pages/Logout";
 
 function App() {
   // State to control the visibility of the login page
-  const { handleHideLogin, showLogin, setShowLogin, visible, setVisible,userRole  } =
+  const { handleHideLogin, showLogin, setShowLogin ,userRole  } =
     useContext(UserContext);
-
+const [visible, setVisible] = useState(false)
   // Function to hide the login page
 
   return (
@@ -37,7 +38,7 @@ function App() {
       }`}
     >
       <Navbar
-        onLoginClick={() => setShowLogin(true)}
+       
         visible={visible}
         setVisible={setVisible}
       />
@@ -49,9 +50,10 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-
+        <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/404" element={<NotFound />} />
 
@@ -64,7 +66,7 @@ function App() {
           </>
         )}
       </Routes>
-      {showLogin && <Login onClose={handleHideLogin} />} <Footer />
+      <Footer />
       {/* Render Login when showLogin is true */}
     </div>
   );

@@ -3,28 +3,33 @@ import { createContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [data, setData] = useState(null); // Set initial data to null
+  const [user, setUser] = useState(null); // Holds user data and tokens
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [postDataPayload, setPostDataPayload] = useState(null);
-  const [registerDataPayload, setRegisterDataPayload] = useState(null);
-  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState({ login: null, register: null }); // Separate error states
   const [showLogin, setShowLogin] = useState(false);
-  const [userRole, setUserRole] = useState("admin");
+  const [isLogin, setIsLogin] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
-  const handleHideLogin = () => {
-    setShowLogin(false);
-  };
+  // Load user from localStorage on initialization
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsLogin(true);
+    }
+    setLoading(false);
+  }, []);
 
+  // Login user and store JWT in localStorage
   const loginUserData = async (inputData) => {
+    console.log(JSON.stringify(inputData));
     setLoading(true);
-    setError(null);
-    console.log("UserProvider rendered");
+    setError((prev) => ({ ...prev, login: null })); // Reset login error
     try {
       const response = await fetch("http://127.0.0.1:3002/api/v1/users/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // Fixed the typo here from "Content-Typpe"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(inputData),
       });
@@ -34,83 +39,81 @@ export const UserProvider = ({ children }) => {
       }
 
       const result = await response.json();
-      setData(result); // Store the result from login
+      setUser(result); // Store user data including tokens
+      setUserRole(result.role)
+      localStorage.setItem("user", JSON.stringify(result)); // Save user data to localStorage
+      setShowLogin(false); // Hide login modal on successful login
+      setIsLogin(true);
+      
     } catch (error) {
-      setError(error);
+      setError((prev) => ({ ...prev, login: error.message })); // Store login error
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (postDataPayload) {
-      console.log("UserProvider rendered");
-      loginUserData(postDataPayload);
-    }
-  }, [postDataPayload]);
-
-  const triggerPostRequest = (inputData) => {
-    setPostDataPayload(inputData);
-  };
-
-  // REGISTER USER
+  // Register user and store user data
   const registerUserData = async (inputData) => {
     setLoading(true);
-    setError(null);
-    console.log("UserProvider rendered");
+    setError((prev) => ({ ...prev, register: null })); // Reset registration error
     try {
       const response = await fetch(
         "http://127.0.0.1:3000/api/v1/users/sign-up",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // Fixed the typo here from "Content-Typpe"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(inputData),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to log in");
+        throw new Error("Failed to register");
       }
 
       const result = await response.json();
-      setData(result); // Store the result from login
+      setUser(result); // Store user data upon successful registration
+      localStorage.setItem("user", JSON.stringify(result)); // Save user data to localStorage
+      setShowLogin(false); // Optionally hide login modal
     } catch (error) {
-      setError(error);
+      setError((prev) => ({ ...prev, register: error.message })); // Store registration error
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (registerDataPayload) {
-      console.log("UserProvider rendered");
-      registerUserData(registerDataPayload);
-    }
-  }, [registerDataPayload]);
-
-  const triggerRegisterRequest = (inputData) => {
-    setRegisterDataPayload(inputData);
+  // Logout function to clear user data and tokens
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    setIsLogin(false);
   };
+
+  // Handle visibility of login modal
+  const handleHideLogin = () => {
+    setShowLogin(false);
+  };
+
   return (
     <UserContext.Provider
       value={{
-        data,
+        user,
         loading,
         error,
-        triggerPostRequest,
-        triggerRegisterRequest,
-        handleHideLogin,
+        loginUserData,
+        registerUserData,
+        logout,
         showLogin,
         setShowLogin,
-        visible,
-        setVisible,
+        handleHideLogin,
+        isLogin,
+        setIsLogin,
         userRole,
         setUserRole,
       }}
     >
-      {children} {/* Fixed spelling from 'childern' to 'children' */}
+      {children}
     </UserContext.Provider>
   );
 };

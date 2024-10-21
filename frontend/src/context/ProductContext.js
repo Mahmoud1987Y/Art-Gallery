@@ -1,4 +1,4 @@
-import { createContext, useState ,useEffect} from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
 
@@ -10,16 +10,18 @@ export const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); // Keep track of the current page
+  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem('cartItems');
+    const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   useEffect(() => {
     // Store cart items in localStorage whenever cartItems change
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const fetchProductsData = async (
@@ -67,8 +69,6 @@ export const ProductProvider = ({ children }) => {
 
   //add to cart function to add items to cart
 
-  
-
   return (
     <ProductContext.Provider
       value={{
@@ -85,7 +85,12 @@ export const ProductProvider = ({ children }) => {
         setSearch,
         showSearch,
         setShowSearch,
-        cartItems,setCartItems
+        cartItems,
+        setCartItems,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        setTotalPages,
       }}
     >
       {children}

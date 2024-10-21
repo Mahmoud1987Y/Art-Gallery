@@ -1,6 +1,8 @@
 import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const ProfileMenu = (props) => {
+  const navigate = useNavigate()
   return (
     <div className="group relative">
             <img
@@ -13,12 +15,14 @@ const ProfileMenu = (props) => {
                 <p className="cursor-pointer  text-center hover:text-black">
                   My profile
                 </p>
+                
                 <p className="cursor-pointer text-center hover:text-black">
                   Orders
                 </p>
+                <Link to='/logout'>
                 <p className="cursor-pointer text-center hover:text-black">
                   Logout
-                </p>
+                </p></Link>
               </div>
             </div>
           </div>

@@ -4,12 +4,16 @@ import { Link, NavLink } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 import { ProductContext } from "../context/ProductContext";
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ onLoginClick, setVisible, visible }) => {
-  const { userRole } = useContext(UserContext); // Access user role from UserContext
-  const [isLogin, setIsLogin] = useState(false);
+const Navbar = ({ setVisible, visible }) => {
+  const { isLogin,setIsLogin,userRole } = useContext(UserContext); // Access user role from UserContext
+  
   const { showSearch, setShowSearch, cartItems } = useContext(ProductContext);
-
+const navigate = useNavigate()
+  function onLoginClick(){
+navigate('/login')
+}
   return (
     <div className={`flex justify-between items-center py-5 font-medium`}>
       <Link to="/">
@@ -62,6 +66,7 @@ const Navbar = ({ onLoginClick, setVisible, visible }) => {
           className="w-5 cursor-pointer"
           alt="search"
         />
+        
         {isLogin ? (
           <ProfileMenu imgIcon={assets.profile_icon} />
         ) : (
