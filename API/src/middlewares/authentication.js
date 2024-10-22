@@ -1,13 +1,15 @@
 const jwt = require("jsonwebtoken");
 const {BlacklistedTokens} = require('../models/Users')
 const authentication = async(req, res, next) => {
+  
   const accessToken = req.headers.authorization;
-  console.log(accessToken);
+
+
 
   if (!accessToken) {
     return res.status(401).json({ message: "Access token not found" });
   }
-  const blacklisted = await BlacklistedTokens.findOne({ where: { token } });
+  const blacklisted = await BlacklistedTokens.findOne({ where: { token:accessToken } });
 
   if (blacklisted) {
     return res.status(401).json({ message: "Token is blacklisted" });

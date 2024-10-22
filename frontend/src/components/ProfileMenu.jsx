@@ -6,7 +6,7 @@ const ProfileMenu = (props) => {
   return (
     <div className="group relative">
             <img
-              src={props.imgIcon}
+              src={props.imgIcon.replace("http:\\", "http://").replaceAll('\\', "/")}
               className=" w-7 cursor-pointer"
               alt="profile image"
             />

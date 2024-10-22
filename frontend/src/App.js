@@ -1,7 +1,5 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom"; // Changed Router to BrowserRouter
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Home from "./pages/Home";
 import Collections from "./pages/Collections";
 import AboutUs from "./pages/AboutUs";
@@ -14,34 +12,22 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./admin/AdminDashboard";
-import AdminProducts from "./admin/ManageProducts";
-import AdminOrders from "./admin/ManageOrders";
+import ManageProducts from "./admin/ManageProducts";
 
-import { UserContext, UserProvider } from "./context/UserContext";
-import { ProductProvider } from "./context/ProductContext";
-import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import Logout from "./pages/Logout";
+import { UserContext } from "./context/UserContext";
+import ManageOrders from "./admin/ManageOrders";
+import Register from "./pages/Register";
 
 function App() {
-  // State to control the visibility of the login page
-  const { handleHideLogin, showLogin, setShowLogin ,userRole  } =
-    useContext(UserContext);
-const [visible, setVisible] = useState(false)
-  // Function to hide the login page
+  const { userRole } = useContext(UserContext); // Ensure userRole is correctly fetched
+  const [visible, setVisible] = useState(false);
 
   return (
-    <div
-      className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${
-        visible ? "overflow-hidden" : ""
-      }`}
-    >
-      <Navbar
-       
-        visible={visible}
-        setVisible={setVisible}
-      />
+    <div className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${visible ? "overflow-hidden" : ""}`}>
+      <Navbar visible={visible} setVisible={setVisible} />
       <SearchBar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -52,22 +38,26 @@ const [visible, setVisible] = useState(false)
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/register" element={<Register/>}/>
         <Route path="/orders" element={<Orders />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/404" element={<NotFound />} />
 
         {/* Admin Routes (Protected) */}
-        {userRole === "admin" && (
+
+        {userRole === ("moderator"||"admin") ? (
+          
           <>
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/products" element={<AdminProducts />} />
-            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/products" element={<ManageProducts/>} />
+            <Route path="/admin/orders" element={<ManageOrders />} />
           </>
+        ) : (
+          <Route path="/admin" element={<NotFound />} /> // Redirecting to NotFound if not authorized
         )}
       </Routes>
       <Footer />
-      {/* Render Login when showLogin is true */}
     </div>
   );
 }

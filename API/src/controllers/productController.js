@@ -6,6 +6,8 @@ const { error } = require("winston");
 const { Op } = require("sequelize");
 function findProduct() {}
 exports.addProduct = async (req, res, next) => {
+ 
+  console.log(req.body);
   const data = req.body;
 
   const validateData = await validate(data);

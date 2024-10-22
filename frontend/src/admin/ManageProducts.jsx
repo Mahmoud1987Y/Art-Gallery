@@ -1,25 +1,47 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../context/ProductContext";
-import AddProductModal from "./components/AddProductModal ";// Import the modal component
+import AddProductModal from "./components/AddProductModal "; // Import the modal component
 import { assets } from "../assets/assets";
+import { UserContext } from "../context/UserContext";
 
 const ManageProducts = () => {
-  const { products, fetchProductsData, search, loading, error,page,setPage } =
-    useContext(ProductContext);
+  const {
+    products,
+    fetchProductsData,
+    search,
+    loading,
+    error,
+    page,
+    setPage,
+    addNewProduct,
+  } = useContext(ProductContext);
+  const { user } = useContext(UserContext);
+
   const [searchPattern, setSearchPattern] = useState("?title=");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const handleAddProduct = (newProduct) => {
-    
+
+  const handleAddProduct = async (newProduct) => {
     // Add logic here to save the new product to the database or update state
-    try {
-      
-    } catch (error) {
-      
+   
+    const formData = new FormData();
+    for (const key in newProduct) {
+
+      if (key === "image") {
+        const newKey = "img_url";
+        formData.append(newKey, newProduct[key]);
+        continue;
+      }
+      formData.append(key, newProduct[key]);
     }
+    console.log(formData)
+   
+   
+
+    // If you're uploading a file
+
+    await addNewProduct(formData, user.token, user.result.role);
   };
-  
-  
+
   useEffect(() => {
     setSearchPattern(`?title=${search}`);
   }, [search]);
@@ -28,25 +50,22 @@ const ManageProducts = () => {
     fetchProductsData(searchPattern, false, false, false);
   }, [searchPattern, search]);
 
-
   function handlePrev() {
     const newPage = page > 1 ? page - 1 : 1;
     setPage(newPage);
-    
-      setSearchPattern(
-        (prev) => `${prev.replace(/&page=\d+/, "")}&page=${newPage}`
-      );
-    
+
+    setSearchPattern(
+      (prev) => `${prev.replace(/&page=\d+/, "")}&page=${newPage}`
+    );
   }
 
   function handleNext() {
     const newPage = products.length > 0 ? page + 1 : page;
     setPage(newPage);
-    
-      setSearchPattern(
-        (prev) => `${prev.replace(/&page=\d+/, "")}&page=${newPage}`
-      );
-    
+
+    setSearchPattern(
+      (prev) => `${prev.replace(/&page=\d+/, "")}&page=${newPage}`
+    );
   }
   return (
     <div className="p-6 md:p-10 bg-gray-100 min-h-screen">
@@ -54,7 +73,10 @@ const ManageProducts = () => {
 
       {/* Add Product Button */}
       <div className="mb-6">
-        <button  onClick={() => setIsModalOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
           Add New Product
         </button>
       </div>
@@ -95,7 +117,9 @@ const ManageProducts = () => {
                   <td className="py-2 px-4">
                     {product.is_featured ? "Yes" : "No"}
                   </td>
-                  <td className="py-2 px-4"><img className="w-20" src={product.img_url}/></td>
+                  <td className="py-2 px-4">
+                    <img className="w-20" src={product.img_url} />
+                  </td>
                   <td className="py-2 px-4">
                     <button className="text-blue-500 hover:underline mr-4">
                       Edit
@@ -111,21 +135,21 @@ const ManageProducts = () => {
         )}
       </div>
       <div className="flex items-center justify-center gap-4 mt-6">
-            <img
-              className="w-6 cursor-pointer"
-              onClick={handlePrev}
-              src={assets.left_arrow}
-              alt=""
-            />
-            <p>{page}</p>
-            <img
-              className="w-6 cursor-pointer"
-              src={assets.right_arrow}
-              alt=""
-              onClick={handleNext}
-            />
-          </div>
-          <AddProductModal
+        <img
+          className="w-6 cursor-pointer"
+          onClick={handlePrev}
+          src={assets.left_arrow}
+          alt=""
+        />
+        <p>{page}</p>
+        <img
+          className="w-6 cursor-pointer"
+          src={assets.right_arrow}
+          alt=""
+          onClick={handleNext}
+        />
+      </div>
+      <AddProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddProduct={handleAddProduct}

@@ -7,7 +7,7 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ setVisible, visible }) => {
-  const { isLogin,setIsLogin,userRole } = useContext(UserContext); // Access user role from UserContext
+  const { isLogin,setIsLogin,userRole,user } = useContext(UserContext); // Access user role from UserContext
   
   const { showSearch, setShowSearch, cartItems } = useContext(ProductContext);
 const navigate = useNavigate()
@@ -21,6 +21,7 @@ navigate('/login')
       </Link>
       
       {/* Desktop Menu */}
+      
       <ul className="hidden md:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>Home</p>
@@ -38,10 +39,11 @@ navigate('/login')
           <p>Contact Us</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </Link>
-
+        
         {/* Admin Links - Only visible if user is an admin */}
-        {userRole === "admin" && (
+        {(userRole === ("moderator")||userRole === ("admin")) && (
           <>
+          
             <NavLink to="/admin" className="flex flex-col items-center gap-1">
               <p>Admin Dashboard</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
@@ -68,7 +70,7 @@ navigate('/login')
         />
         
         {isLogin ? (
-          <ProfileMenu imgIcon={assets.profile_icon} />
+          <ProfileMenu imgIcon={user.result.profile_picture_url?user.result.profile_picture_url:assets.profile_icon} />
         ) : (
           <div>
             <button
@@ -138,7 +140,7 @@ navigate('/login')
           </NavLink>
 
           {/* Admin Links in Mobile Menu */}
-          {userRole === "admin" && (
+          {(userRole === ("moderator")||userRole === ("admin")) && (
             <>
               <NavLink
                 onClick={() => setVisible(false)}

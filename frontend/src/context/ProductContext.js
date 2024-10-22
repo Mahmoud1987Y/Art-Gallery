@@ -60,13 +60,38 @@ export const ProductProvider = ({ children }) => {
       } else {
         setProducts(result.result);
       }
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+
+      setError(err.message );
     } finally {
       setLoading(false);
     }
   };
 
+  //add new products
+
+  const addNewProduct = async (productData,token,role) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:3002/api/v1/products/add-product",
+        {
+          method: "POST",
+          headers: {
+            authorization: token, // Include the token in the Authorization header
+          }, 
+          body: productData,
+        }
+      );
+      if (!response.ok) throw new Error("Failed to add new product");
+
+      const result = await response.json();
+    } catch (err) {
+      setError(err.message );
+    }finally{
+      setLoading(false)
+    }
+  };
   //add to cart function to add items to cart
 
   return (
@@ -91,6 +116,7 @@ export const ProductProvider = ({ children }) => {
         setCurrentPage,
         totalPages,
         setTotalPages,
+        addNewProduct,
       }}
     >
       {children}

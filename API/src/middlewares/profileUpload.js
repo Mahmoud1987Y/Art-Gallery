@@ -1,7 +1,7 @@
 const multer = require('multer');
 
 // Set up multer to store uploaded files in the public/images directory
-const storage = multer.diskStorage({
+const profilStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     console.log(req)
     cb(null, 'public/profiles');
@@ -13,6 +13,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const profileUpload = multer({ storage: storage });
+const profileUpload = multer({ storage: profilStorage });
 
 module.exports = profileUpload;
