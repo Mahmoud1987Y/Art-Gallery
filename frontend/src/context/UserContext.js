@@ -6,10 +6,11 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ login: null, register: null });
+  const [error, setError] = useState({ login: null, register: null, address: null });
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [address, setAddress] = useState(null); // Store address information
 
   const isTokenExpired = (token) => {
     if (!token || typeof token !== "string") {
@@ -67,15 +68,12 @@ export const UserProvider = ({ children }) => {
 
   const registerUserData = async (inputData) => {
     setLoading(true);
-    const data = await inputData;
-
     setError((prev) => ({ ...prev, register: null }));
     try {
       const response = await fetch(
         "http://127.0.0.1:3002/api/v1/users/sign-up",
         {
           method: "POST",
-
           body: inputData,
         }
       );
@@ -88,10 +86,84 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(result));
       setShowLogin(false);
       setIsLogin(true);
-   
+
       setUserRole(result.result.role);
     } catch (error) {
       setError((prev) => ({ ...prev, register: error.message }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ADD Address Functionality
+  
+  const addAddress = async (addressData) => {
+    setLoading(true);
+    setError((prev) => ({ ...prev, address: null }));
+    try {
+      console.log(addressData)
+      const response = await fetch("http://127.0.0.1:3002/api/v1/users/address", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${user.token}`,
+        },
+        body: JSON.stringify(addressData),
+        user:user
+      });
+
+      if (!response.ok) throw new Error("Failed to add address");
+
+      const result = await response.json();
+      setAddress(result); // Update state with the new address
+    } catch (error) {
+      setError((prev) => ({ ...prev, address: error.message }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateAddress = async (addressId, updatedAddressData) => {
+    setLoading(true);
+    setError((prev) => ({ ...prev, address: null }));
+    try {
+      const response = await fetch(`http://127.0.0.1:3002/api/v1/users/address/${addressId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${user.token}`,
+        },
+        body: JSON.stringify(updatedAddressData),
+      });
+
+      if (!response.ok) throw new Error("Failed to update address");
+
+      const result = await response.json();
+      setAddress(result); // Update state with the updated address
+    } catch (error) {
+      setError((prev) => ({ ...prev, address: error.message }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAddress = async () => {
+    setLoading(true);
+    setError((prev) => ({ ...prev, address: null }));
+    try {
+      const response = await fetch("http://127.0.0.1:3002/api/v1/users/address", {
+        method: "GET",
+        headers: {
+          Authorization: `${user.token}`, // Ensure user is authenticated
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch addresses");
+
+      const result = await response.json();
+      setAddress(result); // Update the state with fetched addresses
+    } catch (error) {
+      setError((prev) => ({ ...prev, address: error.message }));
     } finally {
       setLoading(false);
     }
@@ -113,10 +185,14 @@ export const UserProvider = ({ children }) => {
         loginUserData,
         registerUserData,
         logout,
+        addAddress, // Expose add address function
+        updateAddress, // Expose update address function
+        getAddress, // Expose get address function
         showLogin,
         setShowLogin,
         isLogin,
         userRole,
+        address,
       }}
     >
       {children}

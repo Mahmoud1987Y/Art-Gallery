@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
   size: Yup.string(),
   description: Yup.string(),
   is_featured: Yup.boolean(),
-  image: Yup.mixed(), // Change required to optional for update
+   // Change required to optional for update
 });
 
 const AddProductModal = ({ isOpen, onClose, onAddProduct, initialValues }) => {

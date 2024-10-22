@@ -18,7 +18,7 @@ export const ProductProvider = ({ children }) => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  const[deliveryFee,setDeliveryFee] = useState(15)
+  const [deliveryFee, setDeliveryFee] = useState(15);
 
   useEffect(() => {
     // Store cart items in localStorage whenever cartItems change
@@ -62,8 +62,7 @@ export const ProductProvider = ({ children }) => {
         setProducts(result.result);
       }
     } catch (err) {
-
-      setError(err.message );
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -71,7 +70,7 @@ export const ProductProvider = ({ children }) => {
 
   //add new products
 
-  const addNewProduct = async (productData,token,role) => {
+  const addNewProduct = async (productData, token, role) => {
     setLoading(true);
     try {
       const response = await fetch(
@@ -80,7 +79,7 @@ export const ProductProvider = ({ children }) => {
           method: "POST",
           headers: {
             authorization: token, // Include the token in the Authorization header
-          }, 
+          },
           body: productData,
         }
       );
@@ -88,25 +87,22 @@ export const ProductProvider = ({ children }) => {
 
       const result = await response.json();
     } catch (err) {
-      setError(err.message );
-    }finally{
-      setLoading(false)
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-
-
-  const updateProduct = async (id,productData,token) => {
+  const updateProduct = async (id, productData, token) => {
     setLoading(true);
     try {
-      
       const response = await fetch(
         `http://127.0.0.1:3002/api/v1/products/update/${id}`,
         {
           method: "PUT",
           headers: {
             authorization: token, // Include the token in the Authorization header
-          }, 
+          },
           body: productData,
         }
       );
@@ -118,26 +114,31 @@ export const ProductProvider = ({ children }) => {
         )
       );
     } catch (err) {
-      setError(err.message );
-    }finally{
-      setLoading(false)
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
-   // Implement deleteProduct function
-   const deleteProduct = async (productId, token) => {
+  // Implement deleteProduct function
+  const deleteProduct = async (productId, token) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:3002/api/v1/products/delete/${productId}`, {
-        method: "DELETE",
-        headers: {
-          authorization: token,
-        },
-      });
+      const response = await fetch(
+        `http://127.0.0.1:3002/api/v1/products/delete/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: token,
+          },
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to delete product");
 
       // Update the products state to remove the deleted product
-      setProducts((prevProducts) => prevProducts.filter(product => product.id !== productId));
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== productId)
+      );
 
       // Optionally, refetch products if you want to ensure the data is up-to-date
       // fetchProductsData();
@@ -171,7 +172,9 @@ export const ProductProvider = ({ children }) => {
         totalPages,
         setTotalPages,
         addNewProduct,
-        deleteProduct,updateProduct,deliveryFee
+        deleteProduct,
+        updateProduct,
+        deliveryFee,
       }}
     >
       {children}

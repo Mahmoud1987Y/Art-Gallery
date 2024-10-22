@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { connectMysql } = require("../database/connectMysql");
-const User = require("../models/Users"); 
+const { Users } = require("../models/Users");
 // Define Address model
 const Address = connectMysql.define(
   "Address",
@@ -29,28 +29,25 @@ const Address = connectMysql.define(
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: true, 
+      allowNull: true,
     },
     // Foreign Key: user_id
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: User, 
-        key: "id", 
+        model: Users,
+        key: "id",
       },
-      onDelete: "CASCADE", 
-      onUpdate: "CASCADE", 
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
   },
   {
-    tableName: "addresses", // Name of the table in DB
-    timestamps: true, // Enables createdAt and updatedAt fields
+    tableName: "address", // Name of the table in DB
   }
 );
 
-// Create realation 
-User.hasMany(Address, { foreignKey: "user_id" });
-Address.belongsTo(User, { foreignKey: "user_id" });
+// Create realation
 
 module.exports = Address;
