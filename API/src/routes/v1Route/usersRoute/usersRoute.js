@@ -13,14 +13,14 @@ const {
   resetConfirmation,
   logout
 } = require("../../../controllers/usersController");
-
+const profileUpload = require("../../../middlewares/profileUpload");
 const usersRoute = Router();
 
 //get all users
 usersRoute.get("/", authentication, authorization(["admin"]), getUsers);
 
 usersRoute.post("/login", login);
-usersRoute.post("/sign-up", addUser);
+usersRoute.post("/sign-up",profileUpload.single("profile_picture_url"), addUser);
 usersRoute.put("/:id", authentication, updateUser);
 usersRoute.delete("/:id", authentication, authorization(["admin"]), deleteUser);
 usersRoute.post("/refresh-token", refreshToken);

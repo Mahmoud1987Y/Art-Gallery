@@ -23,7 +23,7 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  // 30 days from now
+  
   const data = req.body;
   // check validation for req.body
   const validateData = await validate(data);
@@ -103,41 +103,58 @@ exports.login = async (req, res, next) => {
   }
 };
 
+const path = require('path');
+const fs = require('fs');
+
 exports.addUser = async (req, res, next) => {
   const data = req.body;
-  // check validation for req.body
+
+  // Check validation for req.body
   const validateData = await validate(data);
   if (validateData.error) {
-    res.send(validateData.error.details[0].message);
-  } else {
-    // get password fro DB
+    return res.send(validateData.error.details[0].message);
+  }
 
-    try {
-      const result = await Users.findOne({ where: { email: data.email } });
+  try {
+    const existingUser = await Users.findOne({ where: { email: data.email } });
 
-      if (!result) {
-        const hashedPassword = hashPassword(req.body.password);
-        try {
-          const newUser = { ...data, password_hash: hashedPassword };
+    if (!existingUser) {
+      // Hash the user's password
+      const hashedPassword = hashPassword(data.password);
 
-          const result = await Users.create(newUser);
-          res.status(200).json({
-            message: "ok",
-            user: { ...result.dataValues, password: undefined },
-            error: {},
-          });
-        } catch (error) {
-          next(error);
-        }
-      } else {
-        res.status(401).json({ message: "user is already exist" });
+      // Handle profile image upload
+      let profileImageUrl = null;
+      if (req.file) {
+        profileImageUrl = path.join(`${process.env.MAIN_PATH}:${process.env.PORT}`,'public','profiles', req.file.filename);// Save relative URL
+      console.log(profileImageUrl)
       }
-    } catch (err) {
-      next(err);
+
+      // Create new user data object, including profile image URL
+      const newUser = {
+        ...data,
+        password_hash: hashedPassword,
+        profile_picture_url: profileImageUrl, // Add profile image URL to user data
+      };
+
+      try {
+        const createdUser = await Users.create(newUser);
+
+        res.status(200).json({
+          message: "User registered successfully",
+          result: { ...createdUser.dataValues, password: undefined }, // Exclude password
+          error: {},
+        });
+      } catch (error) {
+        next(error); // Handle database insertion error
+      }
+    } else {
+      res.status(409).json({ message: "User already exists" });
     }
-    //check validationof password
+  } catch (err) {
+    next(err); // Handle general error
   }
 };
+
 
 exports.updateUser = (req, res, next) => {
   res.send("updateUser");

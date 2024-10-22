@@ -1,5 +1,7 @@
 require("dotenv").config();
+
 const express = require("express");
+const bodyParser = require('body-parser');
 const client = require("prom-client");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -9,13 +11,12 @@ const { connectMysql } = require("./database/connectMysql");
 const v1Route = require("./routes/v1Route/v1Route");
 const path = require("path");
 const app = express();
-
+app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(errorHandler);
-console.log(path.join(__dirname, "public"));
 app.use(
   "/public",
 
