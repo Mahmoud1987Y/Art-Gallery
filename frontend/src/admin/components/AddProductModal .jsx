@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -12,31 +12,43 @@ const validationSchema = Yup.object({
   size: Yup.string(),
   description: Yup.string(),
   is_featured: Yup.boolean(),
-  image: Yup.mixed().required("An image is required"), // Added image validation
+  image: Yup.mixed(), // Change required to optional for update
 });
 
-const AddProductModal = ({ isOpen, onClose, onAddProduct }) => {
+const AddProductModal = ({ isOpen, onClose, onAddProduct, initialValues }) => {
+  const [imagePreview, setImagePreview] = useState(null);
 
-    const [imagePreview, setImagePreview] = useState(null);
+  useEffect(() => {
+    
+    if (initialValues && initialValues.img_url) {
+     
+      // Set image preview if updating
+      setImagePreview(initialValues.img_url);
+    } else {
+      setImagePreview(null);
+    }
+  }, [initialValues]);
+
   if (!isOpen) return null;
 
-  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-md shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Add New Product</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {initialValues ? "Update Product" : "Add New Product"}
+        </h2>
 
         <Formik
           initialValues={{
-            title: "",
-            artist: "",
-            type: "",
-            price: "",
-            quantity: "",
-            size: "",
-            description: "",
-            is_featured: false,
-            image: null,
+            title: initialValues?.title || "",
+            artist: initialValues?.artist || "",
+            type: initialValues?.type || "",
+            price: initialValues?.price || "",
+            quantity: initialValues?.quantity || "",
+            size: initialValues?.size || "",
+            description: initialValues?.description || "",
+            is_featured: initialValues?.is_featured || false,
+            image: null, // Reset image on form load
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
@@ -138,9 +150,12 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }) => {
                 />
                 <label className="ml-2">Featured Product</label>
               </div>
-               {/* Image Upload Section */}
-               <div className="mb-2">
-                <label className="block mb-1 font-semibold">Product Image</label>
+
+              {/* Image Upload Section */}
+              <div className="mb-2">
+                <label className="block mb-1 font-semibold">
+                  Product Image
+                </label>
                 <input
                   className="border p-2 w-full"
                   type="file"
@@ -165,6 +180,7 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }) => {
               </div>
 
               {/* Image Preview */}
+
               {imagePreview && (
                 <div className="mb-4">
                   <img
@@ -180,15 +196,15 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }) => {
                   type="submit"
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2"
                 >
-                  Add Product
+                  {initialValues ? "Update Product" : "Add Product"}
                 </button>
                 <button
                   type="button"
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
-                  
-                  onClick={()=>{
+                  onClick={() => {
                     setImagePreview(null); // Clear image preview on cancel
-                    onClose()}}
+                    onClose();
+                  }}
                 >
                   Cancel
                 </button>

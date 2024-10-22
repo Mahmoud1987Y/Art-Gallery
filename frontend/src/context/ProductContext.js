@@ -92,6 +92,36 @@ export const ProductProvider = ({ children }) => {
       setLoading(false)
     }
   };
+
+
+
+  const updateProduct = async (id,productData,token) => {
+    setLoading(true);
+    try {
+      
+      const response = await fetch(
+        `http://127.0.0.1:3002/api/v1/products/update/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            authorization: token, // Include the token in the Authorization header
+          }, 
+          body: productData,
+        }
+      );
+      if (!response.ok) throw new Error("Failed to add new product");
+      const result = await response.json();
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === id ? { ...product, ...result.product } : product
+        )
+      );
+    } catch (err) {
+      setError(err.message );
+    }finally{
+      setLoading(false)
+    }
+  };
    // Implement deleteProduct function
    const deleteProduct = async (productId, token) => {
     setLoading(true);
@@ -140,7 +170,7 @@ export const ProductProvider = ({ children }) => {
         totalPages,
         setTotalPages,
         addNewProduct,
-        deleteProduct
+        deleteProduct,updateProduct
       }}
     >
       {children}

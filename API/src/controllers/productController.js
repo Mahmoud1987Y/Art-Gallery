@@ -125,6 +125,46 @@ exports.getProductById = async (req, res) => {
   }
 };
 
+exports.updateProduct = async (req, res) => {
+  const productId = req.params.id; // Get the product ID from the request parameters
+  const data = req.body; // Destructure updated product fields
+
+  try {
+    // Validate the product data
+    const validateData = await validate(data);
+    if (validateData.error) {
+      return res
+        .status(400)
+        .json({ message: validateData.error.details[0].message });
+    }
+
+    // Check if the product exists
+    const existingProduct = await Product.findByPk(productId);
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // If a new image is uploaded, update the image URL
+    let img_url = existingProduct.img_url;
+    if (req.file) {
+      img_url = `${process.env.MAIN_PATH}:${process.env.PORT}/public/images/${req.file.filename}`;
+    }
+
+    // Update product with new data
+    const updatedProductData = { ...data, img_url };
+
+    // Perform the update
+    await Product.update(updatedProductData, {
+      where: { id: productId },
+    });
+
+    res.status(200).json({ message: "Product updated successfully", product: updatedProductData });
+  } catch (error) {
+    logging.error(error);
+    res.status(500).json({ message: "Error updating product" });
+  }
+};
+
 exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;

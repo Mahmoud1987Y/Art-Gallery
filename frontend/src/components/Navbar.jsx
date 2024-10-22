@@ -21,8 +21,9 @@ navigate('/login')
       </Link>
       
       {/* Desktop Menu */}
-      
       <ul className="hidden md:flex gap-5 text-sm text-gray-700">
+      {(userRole !== ("moderator")&&userRole !== ("admin")) && (
+        <>
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>Home</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
@@ -39,6 +40,8 @@ navigate('/login')
           <p>Contact Us</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </Link>
+        </>
+      )}
         
         {/* Admin Links - Only visible if user is an admin */}
         {(userRole === ("moderator")||userRole === ("admin")) && (

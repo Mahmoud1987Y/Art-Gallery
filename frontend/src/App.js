@@ -30,20 +30,27 @@ function App() {
       <Navbar visible={visible} setVisible={setVisible} />
       <SearchBar />
       <Routes>
+
         <Route path="/" element={<Home />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
+       
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/register" element={<Register/>}/>
         <Route path="/orders" element={<Orders />} />
+
+        
         <Route path="/logout" element={<Logout />} />
+
+
         <Route path="*" element={<NotFound />} />
         <Route path="/404" element={<NotFound />} />
 
+
+        <Route path="/login" element={<Login />} />
         {/* Admin Routes (Protected) */}
 
         {userRole === ("moderator"||"admin") ? (

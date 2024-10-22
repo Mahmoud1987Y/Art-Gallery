@@ -4,6 +4,7 @@ import AddProductModal from "./components/AddProductModal "; // Import the modal
 import { assets } from "../assets/assets";
 import { UserContext } from "../context/UserContext";
 
+
 const ManageProducts = () => {
   const {
     products,
@@ -14,17 +15,41 @@ const ManageProducts = () => {
     page,
     setPage,
     addNewProduct,
-    deleteProduct
+    deleteProduct,updateProduct
   } = useContext(ProductContext);
   const { user } = useContext(UserContext);
 
   const [searchPattern, setSearchPattern] = useState("?title=");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const[selectedProduct,setSelectedProduct] = useState(null)
 
   const handleAddProduct = async (newProduct) => {
     // Add logic here to save the new product to the database or update state
-   
-    const formData = new FormData();
+    if (selectedProduct) {
+      // Update logic
+      const formData = new FormData();
+      for (const key in newProduct) {
+  
+        if (key === "image") {
+          const newKey = "img_url";
+          formData.append(newKey, newProduct[key]);
+          continue;
+        }
+        formData.append(key, newProduct[key]);
+
+      }
+     
+     
+     
+  
+      // If you're uploading a file
+  
+      const result =await updateProduct(selectedProduct.id,formData, user.token);
+      if(result){
+        setSelectedProduct(null)
+      }
+    } else {
+      const formData = new FormData();
     for (const key in newProduct) {
 
       if (key === "image") {
@@ -41,6 +66,9 @@ const ManageProducts = () => {
     // If you're uploading a file
 
     await addNewProduct(formData, user.token, user.result.role);
+      // Add logic
+    }
+    
   };
   const handleDelete = async (productId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
@@ -55,7 +83,7 @@ const ManageProducts = () => {
 
   useEffect(() => {
     fetchProductsData(searchPattern, false, false, false);
-  }, [searchPattern, search]);
+  }, [searchPattern, search,selectedProduct]);
 
   function handlePrev() {
     const newPage = page > 1 ? page - 1 : 1;
@@ -128,7 +156,9 @@ const ManageProducts = () => {
                     <img className="w-20" src={product.img_url} />
                   </td>
                   <td className="py-2 px-4">
-                    <button className="text-blue-500 hover:underline mr-4">
+                    <button onClick={()=>{setSelectedProduct(product)
+                      setIsModalOpen(true)
+                    }} className="text-blue-500 hover:underline mr-4">
                       Edit
                     </button>
                     <button className="text-red-500 hover:underline"
@@ -161,6 +191,8 @@ const ManageProducts = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddProduct={handleAddProduct}
+        initialValues={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
       />
     </div>
   );

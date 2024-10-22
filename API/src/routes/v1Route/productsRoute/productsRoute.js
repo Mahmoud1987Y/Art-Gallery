@@ -7,7 +7,7 @@ const {
   getLatestProducts,
   getBestSellerProducts,
   getProductById,
-  deleteProduct,
+  deleteProduct,updateProduct
 } = require("../../../controllers/productController");
 const upload = require("../../../middlewares/upload ");
 
@@ -19,6 +19,13 @@ productsRouter.post(
   authorization(["admin", "moderator"]),
   upload.single("img_url"),
   addProduct
+);
+productsRouter.put(
+  "/update/:id",
+  authentication,
+  authorization(["admin", "moderator"]),
+  upload.single("img_url"),
+  updateProduct
 );
 productsRouter.delete(
   "/delete/:id",

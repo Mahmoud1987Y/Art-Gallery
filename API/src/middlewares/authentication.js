@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 const {BlacklistedTokens} = require('../models/Users')
 const authentication = async(req, res, next) => {
+
+  console.log("auth ok")
+  console.log(req.headers.authorization)
   
   const accessToken = req.headers.authorization;
 

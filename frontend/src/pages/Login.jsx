@@ -27,7 +27,7 @@ const Login = () => {
   // Effect to redirect after successful login
   useEffect(() => {
     if (user) {
-      if (user.result.role === "moderator") {
+      if (user.result.role ===("moderator"||"admin") ) {
         navigate("/admin/products");
       } else {
         navigate("/");
