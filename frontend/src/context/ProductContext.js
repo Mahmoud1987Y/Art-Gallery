@@ -18,6 +18,7 @@ export const ProductProvider = ({ children }) => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const[deliveryFee,setDeliveryFee] = useState(15)
 
   useEffect(() => {
     // Store cart items in localStorage whenever cartItems change
@@ -170,7 +171,7 @@ export const ProductProvider = ({ children }) => {
         totalPages,
         setTotalPages,
         addNewProduct,
-        deleteProduct,updateProduct
+        deleteProduct,updateProduct,deliveryFee
       }}
     >
       {children}
