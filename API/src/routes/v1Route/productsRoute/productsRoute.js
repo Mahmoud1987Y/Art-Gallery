@@ -6,7 +6,8 @@ const {
   getProduct,
   getLatestProducts,
   getBestSellerProducts,
-  getProductById
+  getProductById,
+  deleteProduct,
 } = require("../../../controllers/productController");
 const upload = require("../../../middlewares/upload ");
 
@@ -19,8 +20,14 @@ productsRouter.post(
   upload.single("img_url"),
   addProduct
 );
+productsRouter.delete(
+  "/delete/:id",
+  authentication,
+  authorization(["admin", "moderator"]),
+  deleteProduct
+);
 productsRouter.get("/", getProduct);
 productsRouter.get("/latest", getLatestProducts);
 productsRouter.get("/best-seller", getBestSellerProducts);
-productsRouter.get('/:id',getProductById)
+productsRouter.get("/:id", getProductById);
 module.exports = productsRouter;

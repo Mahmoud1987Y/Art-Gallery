@@ -4643,3 +4643,27 @@
 {"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:18:31.602Z"}
 {"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:18:36.107Z"}
 {"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:18:36.128Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:42:20.395Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:42:20.418Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:42:32.530Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:42:32.555Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:42:36.171Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:42:36.197Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:42:39.561Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:42:39.584Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:42:48.167Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:42:48.190Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:17.133Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:17.153Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:19.245Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:19.267Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:23.936Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:23.961Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:25.435Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:25.456Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:28.352Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:28.378Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:43:53.096Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:43:53.119Z"}
+{"level":"info","message":"Connection to database has been established successfully.","timestamp":"2024-10-22T07:44:07.039Z"}
+{"level":"info","message":"connection done successifuly on local host on port 3002","timestamp":"2024-10-22T07:44:07.063Z"}

@@ -92,7 +92,30 @@ export const ProductProvider = ({ children }) => {
       setLoading(false)
     }
   };
-  //add to cart function to add items to cart
+   // Implement deleteProduct function
+   const deleteProduct = async (productId, token) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://127.0.0.1:3002/api/v1/products/delete/${productId}`, {
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to delete product");
+
+      // Update the products state to remove the deleted product
+      setProducts((prevProducts) => prevProducts.filter(product => product.id !== productId));
+
+      // Optionally, refetch products if you want to ensure the data is up-to-date
+      // fetchProductsData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ProductContext.Provider
@@ -117,6 +140,7 @@ export const ProductProvider = ({ children }) => {
         totalPages,
         setTotalPages,
         addNewProduct,
+        deleteProduct
       }}
     >
       {children}

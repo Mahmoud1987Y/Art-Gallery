@@ -14,6 +14,7 @@ const ManageProducts = () => {
     page,
     setPage,
     addNewProduct,
+    deleteProduct
   } = useContext(ProductContext);
   const { user } = useContext(UserContext);
 
@@ -33,13 +34,19 @@ const ManageProducts = () => {
       }
       formData.append(key, newProduct[key]);
     }
-    console.log(formData)
+   
    
    
 
     // If you're uploading a file
 
     await addNewProduct(formData, user.token, user.result.role);
+  };
+  const handleDelete = async (productId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (confirmDelete) {
+      await deleteProduct(productId, user.token); // Call the delete function
+    }
   };
 
   useEffect(() => {
@@ -124,7 +131,8 @@ const ManageProducts = () => {
                     <button className="text-blue-500 hover:underline mr-4">
                       Edit
                     </button>
-                    <button className="text-red-500 hover:underline">
+                    <button className="text-red-500 hover:underline"
+                    onClick={() => handleDelete(product.id)}> {/* Call handleDelete with product ID */}
                       Delete
                     </button>
                   </td>

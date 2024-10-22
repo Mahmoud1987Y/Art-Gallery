@@ -124,3 +124,23 @@ exports.getProductById = async (req, res) => {
     res.status(404).json({ message: "cannot find product" });
   }
 };
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    // Check if the product exists
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Delete the product
+    await Product.destroy({ where: { id: productId } });
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    logging.error(error);
+    res.status(500).json({ message: "Error deleting product" });
+  }
+};
