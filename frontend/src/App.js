@@ -9,6 +9,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
+import OrderConfirm from "./pages/OrderConfirm";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./admin/AdminDashboard";
@@ -41,7 +42,7 @@ function App() {
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/register" element={<Register/>}/>
         <Route path="/orders" element={<Orders />} />
-
+        <Route path="/order-confirm" element={<OrderConfirm />} />
         
         <Route path="/logout" element={<Logout />} />
 

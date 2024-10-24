@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { connectMysql } = require("../database/connectMysql");
 const { Users } = require("../models/Users");
 // Define Address model
-const Address = connectMysql.define(
+exports.Address = connectMysql.define(
   "Address",
   {
     id: {
@@ -50,4 +50,4 @@ const Address = connectMysql.define(
 
 // Create realation
 
-module.exports = Address;
+

@@ -1,16 +1,17 @@
-const { Address } = require("../models/Address");
+const { Address } =require('../models/Address')
 const { Users } = require("../models/Users");
 const { validate } = require("../helper/validation");
 const { Op } = require("sequelize");
 
 // Get all addresses for a user
 exports.getAddresses = async (req, res, next) => {
-  const userId = req.user.id; // Assuming user ID is stored in req.user after authentication
+ 
+  const userId = req.user.user_data.id; // Assuming user ID is stored in req.user after authentication
+ 
   try {
-    const addresses = await Address.findAll({
+    const addresses = await Address.findOne({
       where: { user_id: userId },
     });
-
     res.status(200).json({
       status: "OK",
       data: addresses,
@@ -24,8 +25,7 @@ exports.getAddresses = async (req, res, next) => {
 // Add a new address
 exports.addAddress = async (req, res, next) => {
   const data = req.body;
-  console.log("data")
-  console.log(data)
+ 
   console.log(req.user)
   // Check validation for req.body
   const validateData = await validate(data);

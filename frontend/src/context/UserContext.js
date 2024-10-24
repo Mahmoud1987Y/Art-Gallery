@@ -6,11 +6,17 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ login: null, register: null, address: null });
+  const [error, setError] = useState({
+    login: null,
+    register: null,
+    address: null,
+  });
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [userRole, setUserRole] = useState(null);
-  const [address, setAddress] = useState(null); // Store address information
+  const [address, setAddress] = useState([]); // Store address information
+  const [order, setOrder] = useState(null);
+  const [payement, setPayment] = useState("cash on delivery");
 
   const isTokenExpired = (token) => {
     if (!token || typeof token !== "string") {
@@ -22,6 +28,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    setLoading(true)
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       if (!isTokenExpired(parsedUser.token)) {
@@ -96,26 +103,28 @@ export const UserProvider = ({ children }) => {
   };
 
   // ADD Address Functionality
-  
+
   const addAddress = async (addressData) => {
     setLoading(true);
     setError((prev) => ({ ...prev, address: null }));
     try {
-      console.log(addressData)
-      const response = await fetch("http://127.0.0.1:3002/api/v1/users/address", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token}`,
-        },
-        body: JSON.stringify(addressData),
-        user:user
-      });
+      const response = await fetch(
+        "http://127.0.0.1:3002/api/v1/users/address",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${user.token}`,
+          },
+          body: JSON.stringify(addressData),
+          user: user,
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to add address");
 
       const result = await response.json();
-      setAddress(result); // Update state with the new address
+      await setAddress(result.data); // Update state with the new address
     } catch (error) {
       setError((prev) => ({ ...prev, address: error.message }));
     } finally {
@@ -127,14 +136,17 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError((prev) => ({ ...prev, address: null }));
     try {
-      const response = await fetch(`http://127.0.0.1:3002/api/v1/users/address/${addressId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token}`,
-        },
-        body: JSON.stringify(updatedAddressData),
-      });
+      const response = await fetch(
+        `http://127.0.0.1:3002/api/v1/users/address/${addressId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${user.token}`,
+          },
+          body: JSON.stringify(updatedAddressData),
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to update address");
 
@@ -149,19 +161,30 @@ export const UserProvider = ({ children }) => {
 
   const getAddress = async () => {
     setLoading(true);
+
     setError((prev) => ({ ...prev, address: null }));
     try {
-      const response = await fetch("http://127.0.0.1:3002/api/v1/users/address", {
-        method: "GET",
-        headers: {
-          Authorization: `${user.token}`, // Ensure user is authenticated
-        },
-      });
+      const response = await fetch(
+        `http://127.0.0.1:3002/api/v1/users/address`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `${user.token}`, // Ensure user is authenticated
+          },
+          user: user,
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to fetch addresses");
 
       const result = await response.json();
-      setAddress(result); // Update the state with fetched addresses
+      if (result) {
+        await setAddress(result.data);
+      } else {
+        await setAddress([]);
+      }
+      console.log(result.data);
+      // Update the state with fetched addresses
     } catch (error) {
       setError((prev) => ({ ...prev, address: error.message }));
     } finally {
@@ -176,6 +199,69 @@ export const UserProvider = ({ children }) => {
     setUserRole(null);
   };
 
+  // add order for user
+
+  const addOrder = async (orderItems, addressId) => {
+    const data = { orderItems, addressId };
+    setLoading(true);
+    setError((prev) => ({ ...prev, order: null }));
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:3002/api/v1/users/order/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${user.token}`,
+          },
+          body: JSON.stringify(data),
+          user: user,
+          addressId: "id",
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to add Order");
+
+      const result = await response.json();
+      localStorage.removeItem("cartItems");
+    } catch (error) {
+      setError((prev) => ({ ...prev, address: error.message }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //get orders for a user
+
+  const getOrdersById = async () => {
+    setLoading(true);
+    const userId = user.result.id; // Optional chaining for safety
+    setError((prev) => ({ ...prev, order: null }));
+    try {
+      console.log(userId); // Log the userId to ensure it's correct
+      const response = await fetch(
+        `http://127.0.0.1:3002/api/v1/users/order/get-order/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `${user.token}`, // Ensure correct token format
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Failed to get Order");
+      const result = await response.json();
+      await setOrder(result.result);
+      console.log(result.result)
+      console.log(order)
+    } catch (error) {
+      console.error('Error fetching orders:', error); // Log the full error
+      setError((prev) => ({ ...prev, order: error.message }));
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   return (
     <UserContext.Provider
       value={{
@@ -185,14 +271,20 @@ export const UserProvider = ({ children }) => {
         loginUserData,
         registerUserData,
         logout,
-        addAddress, // Expose add address function
-        updateAddress, // Expose update address function
-        getAddress, // Expose get address function
+        addAddress,
+        updateAddress,
+        getAddress,
         showLogin,
         setShowLogin,
         isLogin,
         userRole,
         address,
+        order,
+        setOrder,
+        payement,
+        setPayment,
+        addOrder,
+        getOrdersById,
       }}
     >
       {children}

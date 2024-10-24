@@ -7,7 +7,7 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ setVisible, visible }) => {
-  const { isLogin,setIsLogin,userRole,user } = useContext(UserContext); // Access user role from UserContext
+  const { isLogin,setIsLogin,userRole,user,getOrdersById } = useContext(UserContext); // Access user role from UserContext
   
   const { showSearch, setShowSearch, cartItems } = useContext(ProductContext);
 const navigate = useNavigate()
@@ -73,7 +73,7 @@ navigate('/login')
         />
         
         {isLogin ? (
-          <ProfileMenu imgIcon={user.result.profile_picture_url?user.result.profile_picture_url:assets.profile_icon} />
+          <ProfileMenu getOrdersById={getOrdersById} imgIcon={user.result.profile_picture_url?user.result.profile_picture_url:assets.profile_icon} />
         ) : (
           <div>
             <button

@@ -16,7 +16,7 @@ const ProfileMenu = (props) => {
                   My profile
                 </p>
                 
-                <p className="cursor-pointer text-center hover:text-black">
+                <p onClick={()=>navigate('/orders')} className="cursor-pointer text-center hover:text-black">
                   Orders
                 </p>
                 <Link to='/logout'>

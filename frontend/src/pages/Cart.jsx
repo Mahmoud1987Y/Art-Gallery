@@ -28,7 +28,7 @@ const Cart = () => {
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
         <div>
-          {/* Cart Items Table for larger screens */}
+          
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white rounded-lg shadow-md hidden sm:table">
               <thead>
@@ -45,12 +45,12 @@ const Cart = () => {
                   <tr key={index} className="border-t">
                     <td className="px-4 py-2">{item.cartLength.title}</td>
                     <td className="px-4 py-2">
-                      {currency} {Number(item.cartLength.price).toFixed(2)}
+                      {currency+" "}{Number(item.cartLength.price).toFixed(2)}
                     </td>
-                    <td className="px-4 py-2">1</td>{" "}
-                    {/* Assuming quantity is 1 */}
+                    <td className="px-4 py-2">1</td>
+                    
                     <td className="px-4 py-2">
-                      {currency} {Number(item.cartLength.price).toFixed(2)}
+                      {currency+" "}{Number(item.cartLength.price).toFixed(2)}
                     </td>
                     <td className="px-4 py-2">
                       <button
@@ -66,7 +66,7 @@ const Cart = () => {
             </table>
           </div>
 
-          {/* Mobile View: Use cards for smaller screens */}
+        
           <div className="sm:hidden">
             {cartItems.map((item, index) => (
               <div
@@ -75,7 +75,7 @@ const Cart = () => {
               >
                 <h2 className="font-bold text-lg">{item.cartLength.title}</h2>
                 <p className="text-gray-700">
-                  Price: {currency} {Number(item.cartLength.price).toFixed(2)}
+                  Price: {currency+" "}{Number(item.cartLength.price).toFixed(2)}
                 </p>
                 <p className="text-gray-700">Quantity: 1</p>
                 <p className="text-gray-700">
@@ -91,15 +91,15 @@ const Cart = () => {
             ))}
           </div>
 
-          {/* Total Section */}
+         
           <div className="flex flex-col items-end mt-6">
             <div className="text-right mb-4">
               <p className="text-xl font-semibold">
-                Total: {currency} {totalPrice.toFixed(2)}
+                Total: {currency+" "}{totalPrice.toFixed(2)}
               </p>
             </div>
 
-            {/* Order Now Button */}
+            
             <button
               onClick={handleOrderNow}
               className="bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-700 transition duration-300"

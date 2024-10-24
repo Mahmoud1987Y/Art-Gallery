@@ -1,7 +1,12 @@
 const { Router } = require("express");
 const authentication = require("../../../middlewares/authentication");
 const authorization = require("../../../middlewares/autherization");
-const {getAddresses,addAddress,updateAddress,deleteAddress} = require('../../../controllers/addressController')
+const {
+  getAddresses,
+  addAddress,
+  updateAddress,
+  deleteAddress,
+} = require("../../../controllers/addressController");
 //const { errorHandler } = require("../../../middlewares/errorHandler");
 const {
   getUsers,
@@ -15,6 +20,10 @@ const {
   logout,
 } = require("../../../controllers/usersController");
 
+const {
+  addOrder,
+  getOrdersByUserId,
+} = require("../../../controllers/orderController");
 const profileUpload = require("../../../middlewares/profileUpload");
 const usersRoute = Router();
 
@@ -32,7 +41,7 @@ usersRoute.delete("/:id", authentication, authorization(["admin"]), deleteUser);
 usersRoute.post("/refresh-token", refreshToken);
 usersRoute.post("/reset", resetPassword);
 usersRoute.post("/passwordReset", resetConfirmation);
-//    const link = `http://${process.env.HOST_NAME}:${process.env.PORT}/passwordReset?token=${resetToken}&id=${userData.id}`;
+
 usersRoute.post("/logout", authentication, logout);
 
 usersRoute.get("/address", authentication, getAddresses);
@@ -46,3 +55,12 @@ usersRoute.put("/address/:id", authentication, updateAddress);
 // Delete an address
 usersRoute.delete("/address/:id", authentication, deleteAddress);
 module.exports = usersRoute;
+
+// orders routes
+
+//add order
+
+usersRoute.post("/order/add", authentication, addOrder);
+
+//get orders for a user
+usersRoute.get("/order/get-order/:id", authentication, getOrdersByUserId);
