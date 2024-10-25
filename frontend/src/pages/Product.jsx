@@ -11,7 +11,7 @@ const Product = () => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:3002/api/v1/products/${productId}`
+          `${process.env.REACT_APP_HOST}/api/v1/products/${productId}`
         );
         const result = await response.json();
         setProduct(result.result);

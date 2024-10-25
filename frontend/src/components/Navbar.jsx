@@ -47,10 +47,7 @@ navigate('/login')
         {(userRole === ("moderator")||userRole === ("admin")) && (
           <>
           
-            <NavLink to="/admin" className="flex flex-col items-center gap-1">
-              <p>Admin Dashboard</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
-            </NavLink>
+            
             <NavLink to="/admin/products" className="flex flex-col items-center gap-1">
               <p>Manage Products</p>
               <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
@@ -145,13 +142,7 @@ navigate('/login')
           {/* Admin Links in Mobile Menu */}
           {(userRole === ("moderator")||userRole === ("admin")) && (
             <>
-              <NavLink
-                onClick={() => setVisible(false)}
-                to="/admin"
-                className="flex flex-col items-center gap-4 py-5 hover:bg-gray-400"
-              >
-                <p>Admin Dashboard</p>
-              </NavLink>
+             
               <NavLink
                 onClick={() => setVisible(false)}
                 to="/admin/products"

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const client = require("prom-client");
 const helmet = require("helmet");
 const cors = require("cors");

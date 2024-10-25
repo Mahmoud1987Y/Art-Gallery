@@ -7,10 +7,11 @@ const {
   getLatestProducts,
   getBestSellerProducts,
   getProductById,
-  deleteProduct,updateProduct
+  deleteProduct,
+  updateProduct,
 } = require("../../../controllers/productController");
 const upload = require("../../../middlewares/upload ");
-
+const{getAllOrders} = require('../../../controllers/orderController')
 const productsRouter = Router();
 
 productsRouter.post(
@@ -37,4 +38,11 @@ productsRouter.get("/", getProduct);
 productsRouter.get("/latest", getLatestProducts);
 productsRouter.get("/best-seller", getBestSellerProducts);
 productsRouter.get("/:id", getProductById);
+productsRouter.get(
+  "/order/all",
+  authentication,
+  authorization(["admin", "moderator"]),
+  getAllOrders
+);
+
 module.exports = productsRouter;

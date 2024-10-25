@@ -23,6 +23,7 @@ const {
 const {
   addOrder,
   getOrdersByUserId,
+  getAllOrders,
 } = require("../../../controllers/orderController");
 const profileUpload = require("../../../middlewares/profileUpload");
 const usersRoute = Router();
@@ -64,3 +65,4 @@ usersRoute.post("/order/add", authentication, addOrder);
 
 //get orders for a user
 usersRoute.get("/order/get-order/:id", authentication, getOrdersByUserId);
+

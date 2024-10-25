@@ -1,3 +1,4 @@
+
 import { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
@@ -18,6 +19,7 @@ export const ProductProvider = ({ children }) => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const[allOrders,setAllOrders] = useState([])
   const [deliveryFee, setDeliveryFee] = useState(15);
 
   useEffect(() => {
@@ -39,15 +41,15 @@ export const ProductProvider = ({ children }) => {
 
       if (searchPattern) {
         // Case 1: Fetch products based on search pattern
-        endpoint = `http://127.0.0.1:3002/api/v1/products/${searchPattern}`;
+        endpoint = `${process.env.REACT_APP_HOST}/api/v1/products/${searchPattern}`;
       } else if (fetchAll) {
         // Case 3: Fetch all products if fetchAll flag is true
-        endpoint = `http://127.0.0.1:3002/api/v1/products/`;
+        endpoint = `${process.env.REACT_APP_HOST}/api/v1/products/`;
       } else if (latest) {
         // Case 2: Fetch the latest 8 products
-        endpoint = `http://127.0.0.1:3002/api/v1/products/latest`;
+        endpoint = `${process.env.REACT_APP_HOST}/api/v1/products/latest`;
       } else if (best) {
-        endpoint = `http://127.0.0.1:3002/api/v1/products/best-seller`;
+        endpoint = `${process.env.REACT_APP_HOST}/api/v1/products/best-seller`;
       }
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -74,7 +76,7 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://127.0.0.1:3002/api/v1/products/add-product",
+        `${process.env.REACT_APP_HOST}/api/v1/products/add-product`,
         {
           method: "POST",
           headers: {
@@ -97,7 +99,7 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://127.0.0.1:3002/api/v1/products/update/${id}`,
+        `${process.env.REACT_APP_HOST}/api/v1/products/update/${id}`,
         {
           method: "PUT",
           headers: {
@@ -124,7 +126,7 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://127.0.0.1:3002/api/v1/products/delete/${productId}`,
+        `${process.env.REACT_APP_HOST}/api/v1/products/delete/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -148,6 +150,33 @@ export const ProductProvider = ({ children }) => {
       setLoading(false);
     }
   };
+// get all orders
+
+const getAllOrders = async (token) => {
+  setLoading(true);
+  setError(null);
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/api/v1/products/order/all`, {
+      method: "GET", // Correct placement of method
+      headers: {
+        Authorization: `${token}`, // Correct format for token
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch orders"); // Handle non-successful responses
+    }
+
+    const result = await response.json();
+    setAllOrders(result.result); // Assuming `result.result` contains the orders
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <ProductContext.Provider
@@ -174,7 +203,7 @@ export const ProductProvider = ({ children }) => {
         addNewProduct,
         deleteProduct,
         updateProduct,
-        deliveryFee,
+        deliveryFee,getAllOrders
       }}
     >
       {children}

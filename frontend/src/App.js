@@ -12,7 +12,7 @@ import Orders from "./pages/Orders";
 import OrderConfirm from "./pages/OrderConfirm";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
-import AdminDashboard from "./admin/AdminDashboard";
+
 import ManageProducts from "./admin/ManageProducts";
 
 import Footer from "./components/Footer";
@@ -57,7 +57,7 @@ function App() {
         {userRole === ("moderator"||"admin") ? (
           
           <>
-            <Route path="/admin" element={<AdminDashboard />} />
+          
             <Route path="/admin/products" element={<ManageProducts/>} />
             <Route path="/admin/orders" element={<ManageOrders />} />
           </>

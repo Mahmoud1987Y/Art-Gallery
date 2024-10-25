@@ -46,7 +46,7 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError((prev) => ({ ...prev, login: null }));
     try {
-      const response = await fetch("http://127.0.0.1:3002/api/v1/users/login", {
+      const response = await fetch(`${process.env.REACT_APP_HOST}/api/v1/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputData),
@@ -78,7 +78,7 @@ export const UserProvider = ({ children }) => {
     setError((prev) => ({ ...prev, register: null }));
     try {
       const response = await fetch(
-        "http://127.0.0.1:3002/api/v1/users/sign-up",
+        `${process.env.REACT_APP_HOST}/api/v1/users/sign-up`,
         {
           method: "POST",
           body: inputData,
@@ -109,7 +109,7 @@ export const UserProvider = ({ children }) => {
     setError((prev) => ({ ...prev, address: null }));
     try {
       const response = await fetch(
-        "http://127.0.0.1:3002/api/v1/users/address",
+        `${process.env.REACT_APP_HOST}/api/v1/users/address`,
         {
           method: "POST",
           headers: {
@@ -137,7 +137,7 @@ export const UserProvider = ({ children }) => {
     setError((prev) => ({ ...prev, address: null }));
     try {
       const response = await fetch(
-        `http://127.0.0.1:3002/api/v1/users/address/${addressId}`,
+        `${process.env.REACT_APP_HOST}/api/v1/users/address/${addressId}`,
         {
           method: "PUT",
           headers: {
@@ -165,7 +165,7 @@ export const UserProvider = ({ children }) => {
     setError((prev) => ({ ...prev, address: null }));
     try {
       const response = await fetch(
-        `http://127.0.0.1:3002/api/v1/users/address`,
+        `${process.env.REACT_APP_HOST}/api/v1/users/address`,
         {
           method: "GET",
           headers: {
@@ -207,7 +207,7 @@ export const UserProvider = ({ children }) => {
     setError((prev) => ({ ...prev, order: null }));
     try {
       const response = await fetch(
-        "http://127.0.0.1:3002/api/v1/users/order/add",
+        `${process.env.REACT_APP_HOST}/api/v1/users/order/add`,
         {
           method: "POST",
           headers: {
@@ -240,7 +240,7 @@ export const UserProvider = ({ children }) => {
     try {
       console.log(userId); // Log the userId to ensure it's correct
       const response = await fetch(
-        `http://127.0.0.1:3002/api/v1/users/order/get-order/${userId}`,
+        `${process.env.REACT_APP_HOST}/api/v1/users/order/get-order/${userId}`,
         {
           method: "GET",
           headers: {
