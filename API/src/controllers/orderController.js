@@ -28,13 +28,12 @@ exports.addOrder = async (req, res) => {
       error: {},
     });
   } catch (error) {
-   
     throw new Error("cannot add your orders");
   }
 };
 exports.getOrdersByUserId = async (req, res) => {
   const userId = req.user.user_data.id;
-  
+
   try {
     const orders = await Order.findAll({
       where: {
@@ -77,7 +76,7 @@ exports.getAllOrders = async (req, res) => {
         },
         {
           model: Users, // Ensure this is the correct model name (e.g., User instead of Users)
-          attributes: ["first_name","last_name", "email"], // Adjust attributes as needed
+          attributes: ["first_name", "last_name", "email"], // Adjust attributes as needed
         },
         {
           model: Address,
@@ -93,7 +92,7 @@ exports.getAllOrders = async (req, res) => {
     });
 
     // Optional: If you want to transform the data before sending it back
-    const formattedOrders = orders.map(order => ({
+    const formattedOrders = orders.map((order) => ({
       id: order.id,
       UserId: order.UserId,
       ProductId: order.ProductId,
@@ -115,6 +114,11 @@ exports.getAllOrders = async (req, res) => {
         country: order.Address.country,
         phoneNumber: order.Address.phoneNumber,
       },
+      Users: {
+        first_name: order.User.first_name,
+        last_name: order.User.last_name,
+        first_name: order.User.first_name,
+      },
     }));
 
     console.log(formattedOrders); // Log the formatted orders
@@ -122,6 +126,8 @@ exports.getAllOrders = async (req, res) => {
     res.status(200).json({ message: "ok", result: formattedOrders });
   } catch (error) {
     console.error(error); // Use console.error for errors
-    res.status(500).json({ message: "Cannot get orders", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Cannot get orders", error: error.message });
   }
 };

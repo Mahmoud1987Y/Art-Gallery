@@ -1,4 +1,3 @@
-
 import { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
@@ -19,7 +18,7 @@ export const ProductProvider = ({ children }) => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  const[allOrders,setAllOrders] = useState([])
+  const [allOrders, setAllOrders] = useState([]);
   const [deliveryFee, setDeliveryFee] = useState(15);
 
   useEffect(() => {
@@ -150,33 +149,37 @@ export const ProductProvider = ({ children }) => {
       setLoading(false);
     }
   };
-// get all orders
+  // get all orders
 
-const getAllOrders = async (token) => {
-  setLoading(true);
-  setError(null);
+  const getAllOrders = async (token) => {
+    setLoading(true);
+    setError(null);
 
-  try {
-    const response = await fetch(`${process.env.REACT_APP_HOST}/api/v1/products/order/all`, {
-      method: "GET", // Correct placement of method
-      headers: {
-        Authorization: `${token}`, // Correct format for token
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_HOST}/api/v1/products/order/all`,
+        {
+          method: "GET", // Correct placement of method
+          headers: {
+            Authorization: `${token}`, // Correct format for token
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch orders"); // Handle non-successful responses
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders"); // Handle non-successful responses
+      }
+
+      const result = await response.json();
+
+      setAllOrders(() => result.result); // Assuming `result.result` contains the orders
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    const result = await response.json();
-    setAllOrders(result.result); // Assuming `result.result` contains the orders
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <ProductContext.Provider
@@ -203,7 +206,9 @@ const getAllOrders = async (token) => {
         addNewProduct,
         deleteProduct,
         updateProduct,
-        deliveryFee,getAllOrders
+        deliveryFee,
+        getAllOrders,
+        allOrders,
       }}
     >
       {children}

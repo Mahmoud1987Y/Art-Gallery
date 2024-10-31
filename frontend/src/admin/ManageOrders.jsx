@@ -1,14 +1,25 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { ProductContext } from "../context/ProductContext";
 import { UserContext } from "../context/UserContext";
+import ShowOrderData from "./components/ShowOrderData";
 
 const ManageOrders = () => {
-  const { allOrders = [], loading, error, getAllOrders } = useContext(ProductContext);
+  const {
+    allOrders = [],
+    loading,
+    error,
+    getAllOrders,
+  } = useContext(ProductContext);
+
   const { user } = useContext(UserContext);
+  const [showOrder, setShowOrder] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(5); // Items per page
-
+  function handleChoose(order) {
+    setShowOrder(true);
+    console.log(order);
+  }
   // Memoize getAllOrders using useCallback to prevent it from changing on every render
   const fetchOrders = useCallback(() => {
     if (user?.token) {
@@ -18,9 +29,8 @@ const ManageOrders = () => {
 
   // Fetch orders only when component mounts or user token changes
   useEffect(() => {
-    fetchOrders();  // Fetch orders once when the component mounts
-   
-  }, []);  
+    fetchOrders(); // Fetch orders once when the component mounts
+  }, []);
 
   // Pagination logic
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -66,18 +76,38 @@ const ManageOrders = () => {
                 </td>
               </tr>
             ) : (
-              currentOrders.map((order) => (
+              allOrders.map((order) => (
                 <tr key={order.id} className="border-t">
-                  <td className="py-2 px-4">{order.id}</td>
-                  <td className="py-2 px-4">{order.User?.name || "N/A"}</td>
-                  <td className="py-2 px-4">${order.Product?.price || "N/A"}</td>
+                  {showOrder && (
+                    <ShowOrderData
+                      orderData={"hello"}
+                      setShowOrder={setShowOrder}
+                    />
+                  )}
+                  <td className="py-2 px-4">
+                    <button
+                      onClick={() => handleChoose(order)}
+                      className=" cursor-pointer"
+                    >
+                      {order.id}
+                    </button>
+                  </td>
+                  <td className="py-2 px-4">
+                    {order.Users?.first_name + " " + order.Users.last_name ||
+                      "N/A"}
+                  </td>
+                  <td className="py-2 px-4">
+                    ${order.Product?.price || "N/A"}
+                  </td>
                   <td className="py-2 px-4">
                     <select
                       value={order.status}
                       className="border rounded p-1"
                       onChange={(e) => {
                         // Handle status change
-                        console.log(`Updating status for Order ID ${order.id} to ${e.target.value}`);
+                        console.log(
+                          `Updating status for Order ID ${order.id} to ${e.target.value}`
+                        );
                       }}
                     >
                       <option value="pending">Pending</option>
@@ -92,6 +122,12 @@ const ManageOrders = () => {
                     <button className="text-red-500 hover:underline">
                       Delete
                     </button>
+                    {showOrder && (
+                    <ShowOrderData
+                      orderData={order}
+                      setShowOrder={setShowOrder}
+                    />
+                  )}
                   </td>
                 </tr>
               ))
